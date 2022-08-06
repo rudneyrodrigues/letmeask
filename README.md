@@ -9,6 +9,7 @@
 - [x] Styled-Components
 - [x] Phosphor Icon
 - [x] Firebase
+- [x] React Hot Toast
 
 ## **Próximas atualizações**
 

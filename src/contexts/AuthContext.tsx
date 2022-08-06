@@ -1,5 +1,6 @@
-import { useState, useEffect, useContext } from "react";
+import toast from "react-hot-toast";
 import { createContext, ReactNode } from "react";
+import { useState, useEffect, useContext } from "react";
 import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 
 import { auth } from '../services/firebase';
@@ -21,7 +22,7 @@ type AuthContextData = {
   // Utiliza o Promise quando uma função possui async await
 }
 
-const AuthContext = createContext<AuthContextData>({} as AuthContextData);
+export const AuthContext = createContext<AuthContextData>({} as AuthContextData);
 
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [user, setUser] = useState<User>({} as User);
@@ -60,14 +61,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       const { displayName, photoURL, uid } = result.user;
 
       if (!displayName || !photoURL) {
-        // toast({
-        //   title: 'Erro ao logar',
-        //   description: 'Não foi possível recuperar as informações do usuário',
-        //   status: 'error',
-        //   duration: 5000,
-        //   isClosable: true,
-        //   position: "top",
-        // })
+        toast.error("Não foi possível recuperar as informações do usuário")
         return;
       }
 
@@ -82,13 +76,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const logoutWithGoogle = async () => {
     await auth.signOut();
 
-    // toast({
-    //   title: 'Logout',
-    //   description: 'Você saiu do sistema',
-    //   duration: 5000,
-    //   isClosable: true,
-    //   position: "top",
-    // })
+    toast.success("Você saiu do sistema")
 
     setUser(undefined);
   }
@@ -98,10 +86,4 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       {children}
     </AuthContext.Provider>
   )
-}
-
-export const useAuth = () => {
-  const context = useContext(AuthContext);
-
-  return context;
 }

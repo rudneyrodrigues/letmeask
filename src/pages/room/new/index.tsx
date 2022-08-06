@@ -2,7 +2,7 @@ import Head from "next/head";
 import Link from "next/link";
 import Image from "next/image";
 import { NextPage } from "next";
-import { useEffect } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { useRouter } from "next/router";
 
@@ -12,7 +12,8 @@ import { Button } from "../../../components/Button";
 import { ContentContainer, IllustrationContainer, NewRoomContainer } from "./style";
 
 const NewRoom: NextPage = (): JSX.Element => {
-  const { user } = useAuth();
+  const [titleRoom, setTitleRoom] = useState('');
+  const { user, logoutWithGoogle } = useAuth();
   const router = useRouter();
 
   useEffect(() => {
@@ -25,6 +26,24 @@ const NewRoom: NextPage = (): JSX.Element => {
       router.push("/");
     }
   }, [user, router]);
+
+  const handleCreateNewRoom = (e: FormEvent) => {
+    e.preventDefault();
+
+    if (titleRoom.trim() === '') {
+      toast.error("Digite o título da sala", {
+        position: "top-center",
+        duration: 5000,
+      });
+
+      return;
+    }
+
+    toast.success(`Criando sala "${titleRoom.trim()}"`, {
+      position: "top-center",
+      duration: 5000,
+    })
+  }
 
   return (
     <>
@@ -56,10 +75,12 @@ const NewRoom: NextPage = (): JSX.Element => {
 
             <strong>Crie uma nova sala</strong>
 
-            <form>
+            <form onSubmit={handleCreateNewRoom}>
               <input
                 type="text"
                 placeholder="Nome da sala"
+                value={titleRoom}
+                onChange={(e) => setTitleRoom(e.target.value)}
               />
 
               <Button>

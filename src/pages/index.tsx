@@ -26,6 +26,16 @@ const Home: NextPage = (): JSX.Element => {
 
   const handleJoinRoom = (e: FormEvent): void => {
     e.preventDefault();
+
+    if (roomCode.trim() === '') {
+      toast.error('Digite o código da sala', {
+        position: "top-center",
+        duration: 5000,
+      });
+      
+      return;
+    }
+
     toast.success(`Entrando na sala "${roomCode}"`, {
       position: 'top-center',
       duration: 5000,

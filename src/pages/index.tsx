@@ -1,16 +1,28 @@
 import Head from 'next/head';
 import Image from 'next/image';
 import { NextPage } from 'next';
+import toast from 'react-hot-toast';
+import { useRouter } from 'next/router';
 import { FormEvent, useState } from 'react';
 import { GoogleLogo, SignIn } from 'phosphor-react';
 
+import { useAuth } from '../hooks/useAuth';
 import { Button } from '../components/Button';
 
 import { ContentContainer, GoogleButton, HomeContainer, IllustrationContainer } from './home.style';
-import toast from 'react-hot-toast';
 
 const Home: NextPage = (): JSX.Element => {
+  const { user, signInWithGoogle } = useAuth();
+  const router = useRouter();
   const [roomCode, setRoomCode] = useState('')
+
+  const handleCreateNewRoom = async () => {
+    if (!user) {
+      await signInWithGoogle();
+    }
+
+    router.push(`/room/new`);
+  }
 
   const handleJoinRoom = (e: FormEvent): void => {
     e.preventDefault();
@@ -48,7 +60,7 @@ const Home: NextPage = (): JSX.Element => {
               width={154}
             />
 
-            <GoogleButton>
+            <GoogleButton onClick={handleCreateNewRoom}>
               <GoogleLogo size={24} weight="bold" />
               Crie sua sala com o Google
             </GoogleButton>

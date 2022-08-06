@@ -1,8 +1,8 @@
 import styled from 'styled-components';
 
-import { theme } from '../styles/theme';
+import { theme } from '../../../styles/theme';
 
-export const HomeContainer = styled.div`
+export const NewRoomContainer = styled.div`
   display: flex;
   min-height: 100vh;
 `;
@@ -83,30 +83,14 @@ export const ContentContainer = styled.div`
     flex-direction: column;
     justify-content: center;
 
-    & .separator {
-      width: 100%;
-      font-size: .875rem;
-      color: ${theme.colors.gray[300]};
+    & > strong {
+      display: block;
+      margin-top: 3.5rem;
+      margin-bottom: 1.5rem;
 
-      margin: 2rem 0;
-      display: flex;
-      align-items: center;
-
-      &::before {
-        content: '';
-        flex: 1;
-        height: 1px;
-        background: ${theme.colors.gray[300]};
-        margin-right: 1rem;
-      }
-      
-      &::after {
-        content: '';
-        flex: 1;
-        height: 1px;
-        background: ${theme.colors.gray[300]};
-        margin-left: 1rem;
-      }
+      font-family: ${theme.fonts.fontFamily.heading};
+      font-size: 1.5rem;
+      font-weight: 700;
     }
 
     & > form {
@@ -129,33 +113,29 @@ export const ContentContainer = styled.div`
         color: ${theme.colors.gray[200]};
       }
     }
+
+    & > span {
+      display: block;
+      margin-top: 1rem;
+
+      font-size: .875rem;
+
+      color: ${theme.colors.gray[300]};
+
+      & > a {
+        margin-left: .25rem;
+        color: ${theme.colors.green.light};
+
+        transition: color .2s ease-in-out;
+
+        &:hover {
+          color: ${theme.colors.green.medium};
+        }
+      }
+    }
   }
 
   @media (max-width: ${theme.breakpoints.tablet}) {
     max-width: 100%;
-  }
-`;
-
-export const GoogleButton = styled.button`
-  width: 100%;
-  height: 3.125rem;
-  padding: 1rem 2.875rem;
-  border-radius: .5rem;
-  margin-top: 3.5rem;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: .5rem;
-
-  font-weight: 500;
-
-  background: #EA4335;
-  color: ${theme.colors.gray[100]};
-
-  transition: filter .2s ease-in-out;
-
-  &:hover {
-    filter: brightness(.8);
   }
 `;

@@ -11,7 +11,7 @@ import { child, push, ref, set } from "firebase/database";
 import { Button } from "../../../components/Button";
 import { database } from "../../../services/firebase";
 
-import { ContentContainer, IllustrationContainer, NewRoomContainer } from "./style";
+import { ContentContainer, IllustrationContainer, NewRoomContainer } from "./styles";
 
 const NewRoom: NextPage = (): JSX.Element => {
   const router = useRouter();
@@ -38,7 +38,7 @@ const NewRoom: NextPage = (): JSX.Element => {
       title: titleRoom.trim(),
       authorId: session.user.email
     }).then(() => {
-      toast.success(`Sala criada com sucesso - id: ${newRoomKey}`, {
+      toast.success("Sala criada com sucesso", {
         position: "top-center",
         duration: 5000,
       });

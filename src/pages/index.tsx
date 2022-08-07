@@ -5,19 +5,20 @@ import toast from 'react-hot-toast';
 import { useRouter } from 'next/router';
 import { FormEvent, useState } from 'react';
 import { child, get, ref } from 'firebase/database';
-import { GoogleLogo, SignIn } from 'phosphor-react';
+import { GoogleLogo, SignIn, Spinner } from 'phosphor-react';
 import { useSession, signIn } from "next-auth/react";
 
 import { Button } from '../components/Button';
 import { database } from '../services/firebase';
 
-import { ContentContainer, GoogleButton, HomeContainer, IllustrationContainer } from './home.style';
+import { ContentContainer, GoogleButton, HomeContainer, IllustrationContainer } from './home.styles';
 
 const Home: NextPage = (): JSX.Element => {
   const router = useRouter();
   const { data: session } = useSession();
 
-  const [roomCode, setRoomCode] = useState('')
+  const [roomCode, setRoomCode] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleCreateNewRoom = async () => {
     if (!session) {
@@ -29,8 +30,11 @@ const Home: NextPage = (): JSX.Element => {
 
   const handleJoinRoom = (e: FormEvent): void => {
     e.preventDefault();
+    setIsLoading(true);
 
     if (roomCode.trim() === '') {
+      setIsLoading(false);
+
       toast.error('Digite o código da sala', {
         position: "top-center",
         duration: 5000,
@@ -45,13 +49,12 @@ const Home: NextPage = (): JSX.Element => {
       if (snapshot.exists()) {
         const room = snapshot.val();
 
-        toast.success(`Entrando na sala ${room.title}`, {
-          position: "top-center",
-          duration: 5000,
-        })
+        setIsLoading(false);
 
         router.push(`/room/${roomCode}`);
       } else {
+        setIsLoading(false);
+
         toast.error('Sala não encontrada', {
           position: "top-center",
           duration: 5000,
@@ -104,8 +107,12 @@ const Home: NextPage = (): JSX.Element => {
               />
 
               <Button>
-                <SignIn size={24} weight="bold" />
-                Entrar na sala
+                {isLoading ? <Spinner className="spinner" size={24} weight="bold" /> : (
+                  <>
+                    <SignIn size={24} weight="bold" />
+                    Entrar na sala
+                  </>
+                )}
               </Button>
             </form>
           </div>

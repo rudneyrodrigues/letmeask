@@ -20,6 +20,11 @@ export const Container = styled.button`
 
   transition: filter .2s ease-in-out;
 
+  .spinner {
+    -webkit-animation: load8 1.1s infinite linear;
+    animation: spinnerLoading 1.1s infinite linear;
+  }
+
   &:hover {
     filter: brightness(.8);
   }

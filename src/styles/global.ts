@@ -9,6 +9,27 @@ export const GlobalStyle = createGlobalStyle`
     box-sizing: border-box;
   }
 
+  @-webkit-keyframes spinnerLoading {
+    0% {
+      -webkit-transform: rotate(0deg);
+      transform: rotate(0deg);
+    }
+    100% {
+      -webkit-transform: rotate(360deg);
+      transform: rotate(360deg);
+    }
+  }
+  @keyframes spinnerLoading {
+    0% {
+      -webkit-transform: rotate(0deg);
+      transform: rotate(0deg);
+    }
+    100% {
+      -webkit-transform: rotate(360deg);
+      transform: rotate(360deg);
+    }
+  }
+
   @media(max-width: 1080px) {
     html {
       font-size: 93.75%;

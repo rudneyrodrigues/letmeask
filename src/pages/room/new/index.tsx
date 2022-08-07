@@ -1,33 +1,25 @@
 import Head from "next/head";
 import Link from "next/link";
 import Image from "next/image";
-import { NextPage } from "next";
-import { FormEvent, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { useRouter } from "next/router";
+import { FormEvent, useState } from "react";
+import { GetServerSideProps, NextPage } from "next";
+import { getSession, useSession } from "next-auth/react";
+import { child, push, ref, set } from "firebase/database";
 
-import { useAuth } from "../../../hooks/useAuth";
 import { Button } from "../../../components/Button";
+import { database } from "../../../services/firebase";
 
 import { ContentContainer, IllustrationContainer, NewRoomContainer } from "./style";
 
 const NewRoom: NextPage = (): JSX.Element => {
-  const [titleRoom, setTitleRoom] = useState('');
-  const { user, logoutWithGoogle } = useAuth();
   const router = useRouter();
+  const { data: session } = useSession();
 
-  useEffect(() => {
-    if (!user) {
-      toast.error("Você precisa estar logado para criar uma sala", {
-        position: "top-center",
-        duration: 5000,
-      });
+  const [titleRoom, setTitleRoom] = useState('');
 
-      router.push("/");
-    }
-  }, [user, router]);
-
-  const handleCreateNewRoom = (e: FormEvent) => {
+  const handleCreateNewRoom = async (e: FormEvent) => {
     e.preventDefault();
 
     if (titleRoom.trim() === '') {
@@ -39,9 +31,19 @@ const NewRoom: NextPage = (): JSX.Element => {
       return;
     }
 
-    toast.success(`Criando sala "${titleRoom.trim()}"`, {
-      position: "top-center",
-      duration: 5000,
+    // insert new room in firebase
+    const newRoomKey = push(child(ref(database), "rooms")).key;
+
+    set(ref(database, "rooms/" + newRoomKey), {
+      title: titleRoom.trim(),
+      authorId: session.user.email
+    }).then(() => {
+      toast.success(`Sala criada com sucesso - id: ${newRoomKey}`, {
+        position: "top-center",
+        duration: 5000,
+      });
+
+      router.push(`/room/admin/${newRoomKey}`);
     })
   }
 
@@ -102,3 +104,20 @@ const NewRoom: NextPage = (): JSX.Element => {
 }
 
 export default NewRoom;
+
+export const getServerSideProps: GetServerSideProps = async ({ req }) => {
+  const session = await getSession({ req });
+
+  if (!session) {
+    return {
+      redirect: {
+        destination: "/",
+        permanent: false,
+      }
+    };
+  }
+
+  return {
+    props: {},
+  }
+}

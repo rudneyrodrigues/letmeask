@@ -1,19 +1,21 @@
-import type { AppProps } from 'next/app';
+import { AppProps } from 'next/app';
 import { Toaster } from 'react-hot-toast';
 import NextNProgress from "nextjs-progressbar";
-
-import { AuthProvider } from '../contexts/AuthContext';
+import { SessionProvider } from "next-auth/react";
 
 import { GlobalStyle } from '../styles/global';
 
-function MyApp({ Component, pageProps }: AppProps) {
+function MyApp({
+  Component,
+  pageProps: { session, ...pageProps }
+}: AppProps) {
   return (
-    <AuthProvider>
+    <SessionProvider session={session}>
       <NextNProgress />
       <GlobalStyle />
       <Toaster />
       <Component {...pageProps} />
-    </AuthProvider>
+    </SessionProvider>
   )
 }
 

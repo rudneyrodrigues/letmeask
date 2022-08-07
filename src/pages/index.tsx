@@ -4,21 +4,24 @@ import { NextPage } from 'next';
 import toast from 'react-hot-toast';
 import { useRouter } from 'next/router';
 import { FormEvent, useState } from 'react';
+import { child, get, ref } from 'firebase/database';
 import { GoogleLogo, SignIn } from 'phosphor-react';
+import { useSession, signIn } from "next-auth/react";
 
-import { useAuth } from '../hooks/useAuth';
 import { Button } from '../components/Button';
+import { database } from '../services/firebase';
 
 import { ContentContainer, GoogleButton, HomeContainer, IllustrationContainer } from './home.style';
 
 const Home: NextPage = (): JSX.Element => {
-  const { user, signInWithGoogle } = useAuth();
   const router = useRouter();
+  const { data: session } = useSession();
+
   const [roomCode, setRoomCode] = useState('')
 
   const handleCreateNewRoom = async () => {
-    if (!user) {
-      await signInWithGoogle();
+    if (!session) {
+      await signIn('google');
     }
 
     router.push(`/room/new`);
@@ -36,10 +39,25 @@ const Home: NextPage = (): JSX.Element => {
       return;
     }
 
-    toast.success(`Entrando na sala "${roomCode}"`, {
-      position: 'top-center',
-      duration: 5000,
-    });
+    const dbRef = ref(database);
+
+    get(child(dbRef, `rooms/${roomCode}`)).then(snapshot => {
+      if (snapshot.exists()) {
+        const room = snapshot.val();
+
+        toast.success(`Entrando na sala ${room.title}`, {
+          position: "top-center",
+          duration: 5000,
+        })
+
+        router.push(`/room/${roomCode}`);
+      } else {
+        toast.error('Sala não encontrada', {
+          position: "top-center",
+          duration: 5000,
+        })
+      }
+    })
   }
 
   return (

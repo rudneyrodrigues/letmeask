@@ -8,7 +8,8 @@
 - [x] Typescript
 - [x] Styled-Components
 - [x] Phosphor Icon
-- [x] Firebase
+- [x] Firebase **(Realtime database)**
+- [x] NextAuth **(Authenticate)**
 - [x] React Hot Toast
 
 ## **Próximas atualizações**
@@ -19,7 +20,7 @@
 
 Clone o repositório com o comando:
 ```cl
-git clone https://github.com/rudneyrodrigues/nome-do-repositorio.git
+git clone https://github.com/rudneyrodrigues/letmeask.git
 ```
 
 Entre na pasta do projeto execute o comando abaixo para instalar as dependências:

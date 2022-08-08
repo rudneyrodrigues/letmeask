@@ -11,6 +11,7 @@
 - [x] Firebase **(Realtime database)**
 - [x] NextAuth **(Authenticate)**
 - [x] React Hot Toast
+- [x] React Modal
 
 ## **Próximas atualizações**
 

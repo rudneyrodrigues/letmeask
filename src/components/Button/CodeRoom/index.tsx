@@ -1,5 +1,6 @@
-import { Copy } from "phosphor-react";
 import toast from "react-hot-toast";
+import { Copy } from "phosphor-react";
+
 import { ButtonCodeRoom } from "./styles";
 
 interface CodeRoomProps {

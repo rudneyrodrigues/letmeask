@@ -5,8 +5,8 @@ import toast from 'react-hot-toast';
 import { useRouter } from 'next/router';
 import { FormEvent, useState } from 'react';
 import { child, get, ref } from 'firebase/database';
-import { GoogleLogo, SignIn, Spinner } from 'phosphor-react';
 import { useSession, signIn } from "next-auth/react";
+import { GoogleLogo, SignIn, Spinner } from 'phosphor-react';
 
 import { Button } from '../components/Button';
 import { database } from '../services/firebase';
@@ -48,6 +48,17 @@ const Home: NextPage = (): JSX.Element => {
     get(child(dbRef, `rooms/${roomCode}`)).then(snapshot => {
       if (snapshot.exists()) {
         const room = snapshot.val();
+
+        if (room.endedAt) {
+          setIsLoading(false);
+
+          toast.error('A sala já foi encerrada', {
+            position: "top-center",
+            duration: 5000,
+          });
+          
+          return;
+        }
 
         setIsLoading(false);
 

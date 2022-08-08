@@ -1,22 +1,20 @@
 import Head from "next/head";
 import Image from "next/image";
+import { useState } from "react";
 import { getSession } from "next-auth/react";
-import { child, get, push, ref, update } from "firebase/database";
+import { child, get, ref } from "firebase/database";
 import { GetServerSideProps, NextPage } from "next";
 
 import { database } from "../../../services/firebase";
 import { CodeRoom } from "../../../components/Button/CodeRoom";
+import { CloseRoomModal } from "../../../components/Modal/CloseRoomModal";
 
 import { AdminRoomContainer, AdminRoomMain, ButtonCloseRoom, HeaderContainer } from "./styles";
-import toast from "react-hot-toast";
-import { useRouter } from "next/router";
 
 interface RoomProps {
   title: string;
   authorId: string;
-  endedAt: {
-    date: string;
-  };
+  endedAt?: string;
 }
 
 interface AdminRoomProps {
@@ -25,27 +23,14 @@ interface AdminRoomProps {
 }
 
 const AdminRoom: NextPage = ({ slug, room }: AdminRoomProps): JSX.Element => {
-  const router = useRouter();
+  const [isOpen, setIsOpen] = useState(false);
 
-  const handleEndRoom = async () => {
-    if (window.confirm("Tem certeza que deseja encerrar a sala?")) {
-      const roomRef = (await get(child(ref(database), "rooms/" + slug))).key;
+  const closeModal = () => {
+    setIsOpen(false);
+  }
 
-      const updatedRoom = {};
-
-      updatedRoom[`rooms/${roomRef}/endedAt`] = {
-        date: new Date(),
-      }
-
-      await update(ref(database), updatedRoom);
-
-      toast.success("Sala encerrada com sucesso!", {
-        position: "top-center",
-        duration: 5000,
-      });
-
-      router.push("/");
-    }
+  const openModal = () => {
+    setIsOpen(true);
   }
 
   return (
@@ -67,7 +52,7 @@ const AdminRoom: NextPage = ({ slug, room }: AdminRoomProps): JSX.Element => {
             <div className="button-container">
               <CodeRoom code={slug} />
 
-              <ButtonCloseRoom onClick={handleEndRoom}>
+              <ButtonCloseRoom onClick={openModal}>
                 Encerrar sala
               </ButtonCloseRoom>
             </div>
@@ -95,6 +80,12 @@ const AdminRoom: NextPage = ({ slug, room }: AdminRoomProps): JSX.Element => {
           </div>
         </AdminRoomMain>
       </AdminRoomContainer>
+
+      <CloseRoomModal
+        roomId={slug}
+        isOpen={isOpen}
+        onRequestClose={closeModal}
+      />
     </>
   )
 }
@@ -122,7 +113,7 @@ export const getServerSideProps: GetServerSideProps = async ({ req, params }) =>
   if (room.authorId !== session.user.email) {
     return {
       redirect: {
-        destination: `/room/admin/${slug}`,
+        destination: `/room/${slug}`,
         permanent: false,
       },
     };

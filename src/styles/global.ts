@@ -9,6 +9,7 @@ export const GlobalStyle = createGlobalStyle`
     box-sizing: border-box;
   }
 
+  /* Criando animação de Spinner */
   @-webkit-keyframes spinnerLoading {
     0% {
       -webkit-transform: rotate(0deg);
@@ -68,5 +69,26 @@ export const GlobalStyle = createGlobalStyle`
   [disabled] {
     cursor: not-allowed;
     opacity: .5;
+  }
+
+  .react-modal-overlay {
+    background: rgba(18, 18, 20, .9);
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .react-modal-content {
+    width: 100%;
+    max-width: 576px;
+    background: ${theme.colors.gray[800]};
+    padding: 3rem;
+    position: relative;
+    border-radius: .5rem;
+    outline: none;
   }
 `;

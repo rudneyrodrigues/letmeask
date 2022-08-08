@@ -1,6 +1,7 @@
 import { getAuth } from 'firebase/auth';
 import { initializeApp } from 'firebase/app';
 import { getDatabase } from 'firebase/database';
+// const { initializeAppCheck, ReCaptchaV3Provider } = require("firebase/app-check");
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -14,6 +15,14 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
+
+// const appCheck = initializeAppCheck(app, {
+//   provider: new ReCaptchaV3Provider('abcdefghijklmnopqrstuvwxy-1234567890abcd'),
+
+//   // Optional argument. If true, the SDK automatically refreshes App Check
+//   // tokens as needed.
+//   isTokenAutoRefreshEnabled: true
+// });
 
 const auth = getAuth();
 const database = getDatabase(app);

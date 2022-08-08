@@ -8,6 +8,31 @@ export const UserRoomContainer = styled.div`
   min-height: 100vh;
 `;
 
+export const HeaderContainer = styled.header`
+  height: 5rem;
+  padding: 0 1rem;
+
+  border-bottom: 1px solid;
+  border-color: ${theme.colors.gray[800]};
+
+  .header-content {
+    width: 100%;
+    max-width: 1120px;
+    height: 5rem;
+    margin: 0 auto;
+
+    display: flex;
+    align-items: center;
+  }
+
+  .button-container {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+`;
+
 export const UserRoomMain = styled.main`
   width: 100%;
   height: 100%;
@@ -20,12 +45,31 @@ export const UserRoomMain = styled.main`
   flex-direction: column;
   gap: 1rem;
 
-  & > h1 {
-    line-height: 36px;
+  .title {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
 
-    font-weight: 700;
-    font-size: 1.5rem;
-    font-family: ${theme.fonts.fontFamily.heading};
+    & > h1 {
+      line-height: 36px;
+
+      font-weight: 700;
+      font-size: 1.5rem;
+      font-family: ${theme.fonts.fontFamily.heading};
+    }
+
+    & > span {
+      height: 1.5rem;
+      padding: 0 1rem;
+
+      line-height: 1.5rem;
+      font-size: .875rem;
+
+      border-radius: 3.1875rem;
+
+      background: ${theme.colors.green.medium};
+      color: ${theme.colors.gray[200]};
+    }
   }
 
   .input-new-question {
@@ -76,6 +120,14 @@ export const UserRoomMain = styled.main`
     }
   }
 
+  .questions-container {
+    margin-top: 2rem;
+
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
   .no-question {
     height: 100%;
     margin-top: 4rem;
@@ -108,27 +160,70 @@ export const UserRoomMain = styled.main`
   }
 `;
 
-export const HeaderContainer = styled.header`
-  height: 5rem;
-  padding: 0 1rem;
+export const Question = styled.div`
+  width: 100%;
+  padding: 1.5rem;
 
-  border-bottom: 1px solid;
-  border-color: ${theme.colors.gray[800]};
+  border-radius: .5rem;
 
-  .header-content {
-    width: 100%;
-    max-width: 1120px;
-    height: 5rem;
-    margin: 0 auto;
+  background: ${theme.colors.gray[800]};
 
-    display: flex;
-    align-items: center;
+  p {
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 24px;
   }
 
-  .button-container {
-    margin-left: auto;
+  & > footer {
+    margin-top: 2rem;
+
     display: flex;
     align-items: center;
     gap: 1rem;
+
+    & > div:first-child {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: .5rem;
+
+      & > img {
+        width: 2rem;
+        height: 2rem;
+        border-radius: 50%;
+      }
+
+      & > span {
+        display: block;
+        color: ${theme.colors.gray[300]};
+      }
+    }
+
+    & > div:last-child {
+      margin-left: auto;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: .5rem;
+
+      & > button {
+        padding: .5rem;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        border-radius: .5rem;
+
+        color: ${theme.colors.green.light};
+
+        transition: background .2s ease-in-out;
+
+        &:hover {
+          background: ${theme.colors.gray[900]};
+        }
+      }
+    }
   }
 `;

@@ -5,11 +5,13 @@ import { getSession } from "next-auth/react";
 import { child, get, ref } from "firebase/database";
 import { GetServerSideProps, NextPage } from "next";
 
+import { useRoom } from "../../../hooks/useRoom";
 import { database } from "../../../services/firebase";
 import { CodeRoom } from "../../../components/Button/CodeRoom";
 import { CloseRoomModal } from "../../../components/Modal/CloseRoomModal";
 
-import { AdminRoomContainer, AdminRoomMain, ButtonCloseRoom, HeaderContainer } from "./styles";
+import { AdminRoomContainer, AdminRoomMain, ButtonCloseRoom, HeaderContainer, Question } from "./styles";
+import { ThumbsUp } from "phosphor-react";
 
 interface RoomProps {
   title: string;
@@ -24,6 +26,8 @@ interface AdminRoomProps {
 
 const AdminRoom: NextPage = ({ slug, room }: AdminRoomProps): JSX.Element => {
   const [isOpen, setIsOpen] = useState(false);
+
+  const { questions } = useRoom(slug);
 
   const closeModal = () => {
     setIsOpen(false);
@@ -60,24 +64,57 @@ const AdminRoom: NextPage = ({ slug, room }: AdminRoomProps): JSX.Element => {
         </HeaderContainer>
 
         <AdminRoomMain>
-          <h1>Sala {room.title}</h1>
-
-          <div>
-            <Image
-              src="/images/Illustration-no-question.png"
-              alt="Illustration-no-question"
-              width={150}
-              height={150}
-            />
-
-            <strong>
-              Nenhuma pergunta por aqui...
-            </strong>
-
-            <span>
-              Envie o código desta sala para seus amigos e comece a responder perguntas!
-            </span>
+          <div className="title">
+            <h1>Sala {room.title}</h1>
+            {questions.length <= 1 ? (
+              <span>{questions.length} pergunta</span>
+            ) : (
+              <span>{questions.length} perguntas</span>
+            )}
           </div>
+
+          {questions.length > 0 ? (
+            <div className="questions-container">
+              {questions.map(question => {
+                return (
+                  <Question key={question.id}>
+                    <p>{question.content}</p>
+
+                    <footer>
+                      <div>
+                        <img src={question.author.avatar} alt={question.author.name} />
+                        <span>{question.author.name}</span>
+                      </div>
+
+                      <div>
+                        { question.likeCount > 0 && <span>{question.likeCount}</span> }
+                        <button>
+                          <ThumbsUp size={24} weight={question.likeId ? "fill" : "regular"} />
+                        </button>
+                      </div>
+                    </footer>
+                  </Question>
+                )
+              })}
+            </div>
+          ) : (
+            <div className="no-question">
+              <Image
+                src="/images/Illustration-no-question.png"
+                alt="Illustration-no-question"
+                width={150}
+                height={150}
+              />
+
+              <strong>
+                Nenhuma pergunta por aqui...
+              </strong>
+
+              <span>
+                Envie o código desta sala para seus amigos e comece a responder perguntas!
+              </span>
+            </div>
+          )}
         </AdminRoomMain>
       </AdminRoomContainer>
 
@@ -110,7 +147,7 @@ export const getServerSideProps: GetServerSideProps = async ({ req, params }) =>
     }
   }
 
-  if (room.authorId !== session.user.email) {
+  if (room.authorId !== session?.user.email) {
     return {
       redirect: {
         destination: `/room/${slug}`,

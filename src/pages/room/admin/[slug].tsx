@@ -2,7 +2,7 @@ import Head from "next/head";
 import Image from "next/image";
 import { useState } from "react";
 import { getSession } from "next-auth/react";
-import { child, get, ref } from "firebase/database";
+import { child, get, ref, update } from "firebase/database";
 import { GetServerSideProps, NextPage } from "next";
 
 import { useRoom } from "../../../hooks/useRoom";
@@ -11,7 +11,9 @@ import { CodeRoom } from "../../../components/Button/CodeRoom";
 import { CloseRoomModal } from "../../../components/Modal/CloseRoomModal";
 
 import { AdminRoomContainer, AdminRoomMain, ButtonCloseRoom, HeaderContainer, Question } from "./styles";
-import { ThumbsUp } from "phosphor-react";
+import { Chat, CheckCircle, ThumbsUp, Trash, TrashSimple } from "phosphor-react";
+import toast from "react-hot-toast";
+import { DeleteQuestionModal } from "../../../components/Modal/DeleteQuestionModal";
 
 interface RoomProps {
   title: string;
@@ -25,16 +27,95 @@ interface AdminRoomProps {
 }
 
 const AdminRoom: NextPage = ({ slug, room }: AdminRoomProps): JSX.Element => {
-  const [isOpen, setIsOpen] = useState(false);
+  const [deleteQuestionId, setDeleteQuestionId] = useState('');
+
+  const [isOpenModalCloseRoom, setIsOpenModalCloseRoom] = useState(false);
+  const [isOpenModalDeleteQuestion, setIsOpenModalDeleteQuestion] = useState(false);
 
   const { questions } = useRoom(slug);
 
-  const closeModal = () => {
-    setIsOpen(false);
+  const closeModalCloseRoom = () => {
+    setIsOpenModalCloseRoom(false);
   }
 
-  const openModal = () => {
-    setIsOpen(true);
+  const openModalCloseRoom = () => {
+    setIsOpenModalCloseRoom(true);
+  }
+
+  const closeModalDeleteQuestion = () => {
+    setIsOpenModalDeleteQuestion(false);
+  }
+
+  const openModalDeleteQuestion = () => {
+    setIsOpenModalDeleteQuestion(true);
+  }
+
+  const handleCheckQuestionAsAnswered = (questionId: string) => {
+    const dbRef = ref(database);
+
+    get(child(dbRef, `rooms/${slug}/questions/${questionId}`)).then(async (snapshot) => {
+      if (snapshot.exists()) {
+        const question = snapshot.val();
+
+        const postData = {
+          ...question,
+          isAnswered: !question.isAnswered
+        }
+
+        const updatedQuestion = {};
+
+        updatedQuestion[`rooms/${slug}/questions/${questionId}`] = postData;
+
+        await update(ref(database), updatedQuestion);
+
+        if (postData.isAnswered) {
+          toast.success("Pergunta marcada como respondida!", {
+            position: "top-center",
+            duration: 5000,
+          });
+        } else {
+          toast("Pergunta marcada como não respondida!", {
+            position: "top-center",
+            duration: 5000,
+          });
+        }
+      }
+    }).catch(error => {
+      toast("Erro ao marcar a pergunta como respondida", {
+        position: "top-center",
+        duration: 5000,
+      })
+
+      console.log(error);
+    })
+  }
+
+  const handleCheckQuestionAsHighlighted = (questionId: string) => {
+    const dbRef = ref(database);
+
+    get(child(dbRef, `rooms/${slug}/questions/${questionId}`)).then(async (snapshot) => {
+      if (snapshot.exists()) {
+        const question = snapshot.val();
+
+        const postData = {
+          ...question,
+          isHighlighted: !question.isHighlighted
+        }
+
+        const updatedQuestion = {};
+
+        updatedQuestion[`rooms/${slug}/questions/${questionId}`] = postData;
+
+        await update(ref(database), updatedQuestion);
+      }
+    }).catch(error => {
+      toast("Erro ao focar a pergunta", {
+        position: "top-center",
+        duration: 5000,
+      })
+
+      console.log(error);
+    })
   }
 
   return (
@@ -56,7 +137,7 @@ const AdminRoom: NextPage = ({ slug, room }: AdminRoomProps): JSX.Element => {
             <div className="button-container">
               <CodeRoom code={slug} />
 
-              <ButtonCloseRoom onClick={openModal}>
+              <ButtonCloseRoom onClick={openModalCloseRoom}>
                 Encerrar sala
               </ButtonCloseRoom>
             </div>
@@ -77,7 +158,13 @@ const AdminRoom: NextPage = ({ slug, room }: AdminRoomProps): JSX.Element => {
             <div className="questions-container">
               {questions.map(question => {
                 return (
-                  <Question key={question.id}>
+                  <Question
+                    key={question.id}
+                    className={`
+                      ${question.isHighlighted && "isHighlighted"}
+                      ${question.isAnswered && "isAnswered"}
+                    `}
+                  >
                     <p>{question.content}</p>
 
                     <footer>
@@ -87,9 +174,23 @@ const AdminRoom: NextPage = ({ slug, room }: AdminRoomProps): JSX.Element => {
                       </div>
 
                       <div>
-                        { question.likeCount > 0 && <span>{question.likeCount}</span> }
-                        <button>
-                          <ThumbsUp size={24} weight={question.likeId ? "fill" : "regular"} />
+                        <button onClick={() => handleCheckQuestionAsAnswered(question.id)}>
+                          <CheckCircle
+                            size={24}
+                            weight={question.isAnswered ? "fill" : "regular"}
+                          />
+                        </button>
+                        <button onClick={() => handleCheckQuestionAsHighlighted(question.id)}>
+                          <Chat
+                            size={24}
+                            weight={question.isHighlighted ? "fill" : "regular"}
+                          />
+                        </button>
+                        <button onClick={() => {
+                          setDeleteQuestionId(question.id);
+                          openModalDeleteQuestion();
+                        }}>
+                          <TrashSimple size={24} />
                         </button>
                       </div>
                     </footer>
@@ -120,8 +221,15 @@ const AdminRoom: NextPage = ({ slug, room }: AdminRoomProps): JSX.Element => {
 
       <CloseRoomModal
         roomId={slug}
-        isOpen={isOpen}
-        onRequestClose={closeModal}
+        isOpen={isOpenModalCloseRoom}
+        onRequestClose={closeModalCloseRoom}
+      />
+
+      <DeleteQuestionModal
+        roomId={slug}
+        questionId={deleteQuestionId}
+        isOpen={isOpenModalDeleteQuestion}
+        onRequestClose={closeModalDeleteQuestion}
       />
     </>
   )

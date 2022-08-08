@@ -4,7 +4,7 @@ import toast from "react-hot-toast";
 import { FormEvent, useState } from "react";
 import { GetServerSideProps, NextPage } from "next";
 import { getSession, signIn, useSession } from "next-auth/react";
-import { child, get, push, ref, update } from "firebase/database";
+import { child, get, push, ref, remove, update } from "firebase/database";
 
 import { useRoom } from "../../hooks/useRoom";
 import { Button } from "../../components/Button";
@@ -94,6 +94,58 @@ const UserRoom: NextPage = ({ slug, room }: UserRoomProps): JSX.Element => {
     setNewQuestion('');
   }
 
+  const handleLikeQuestion = async (questionId: string, likeId: string | undefined) => {
+    if (!session) {
+      toast.error("Por favor, faça login para dar um like.", {
+        position: "top-center",
+        duration: 5000,
+      });
+
+      return;
+    }
+
+    const dbRef = ref(database);
+
+    if (likeId) {
+      // Remove o like  
+      remove(child(dbRef, `rooms/${slug}/questions/${questionId}/likes/${likeId}`));
+
+      toast.success("Pergunta desmarcada como Gostei!", {
+        position: "top-center",
+        duration: 5000,
+      })
+    } else {
+      const newLikeKey = push(child(ref(database), `rooms/${slug}/questions/${questionId}/likes/`)).key;
+
+      get(child(dbRef, `rooms/${slug}/questions/${questionId}/`)).then(async (snapshot) => {
+        if (snapshot.exists()) {
+          const newLike = {}
+
+          newLike[`rooms/${slug}/questions/${questionId}/likes/${newLikeKey}`] = {
+            authorName: session.user.name,
+            authorId: session.user.email,
+          };
+
+          await update(ref(database), newLike);
+
+          toast.success("Pergunta marcada como Gostei!", {
+            position: "top-center",
+            duration: 5000,
+          })
+
+          return;
+        }
+      }).catch(error => {
+        toast.error("Erro ao marcar pergunta como gostei.", {
+          position: "top-center",
+          duration: 5000,
+        });
+
+        console.log(error);
+      })
+    }
+  }
+
   return (
     <>
       <Head>
@@ -161,13 +213,22 @@ const UserRoom: NextPage = ({ slug, room }: UserRoomProps): JSX.Element => {
 
                     <footer>
                       <div>
-                        <img src={question.author.avatar} alt={question.author.name} />
+                        <img
+                          src={question.author.avatar ?
+                            question.author.avatar :
+                            "https://bit.ly/broken-link"
+                          }
+                          alt={question.author.name}
+                        />
                         <span>{question.author.name}</span>
                       </div>
 
                       <div>
                         { question.likeCount > 0 && <span>{question.likeCount}</span> }
-                        <button>
+                        <button
+                          disabled={!session ? true : false}
+                          onClick={() => handleLikeQuestion(question.id, question.likeId)}
+                        >
                           <ThumbsUp size={24} weight={question.likeId ? "fill" : "regular"} />
                         </button>
                       </div>
@@ -190,7 +251,7 @@ const UserRoom: NextPage = ({ slug, room }: UserRoomProps): JSX.Element => {
               </strong>
 
               <span>
-                Envie o código desta sala para seus amigos e comece a responder perguntas!
+                Faça login e seja a primeira pessoa a fazer uma pergunta!
               </span>
             </div>
           )}

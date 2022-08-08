@@ -136,6 +136,8 @@ export const Question = styled.div`
   padding: 1.5rem;
 
   border-radius: .5rem;
+  border: 1px solid;
+  border-color: ${theme.colors.gray[800]};
 
   background: ${theme.colors.gray[800]};
 
@@ -196,5 +198,13 @@ export const Question = styled.div`
         }
       }
     }
+  }
+
+  &.isAnswered {
+    opacity: .5;
+  }
+
+  &.isHighlighted {
+    border-color: ${theme.colors.green.medium};
   }
 `;

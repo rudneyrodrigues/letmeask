@@ -160,11 +160,29 @@ export const UserRoomMain = styled.main`
   }
 `;
 
+export const ButtonLogout = styled.button`
+  height: 2.5rem;
+  padding: 0 1rem;
+  
+  border-radius: .5rem;
+
+  color: ${theme.colors.gray[100]};
+  background: ${theme.colors.gray[800]};
+
+  transition: filter, color, .2s ease-in-out;
+
+  &:hover {
+    filter: brightness(.9);
+  }
+`;
+
 export const Question = styled.div`
   width: 100%;
   padding: 1.5rem;
 
   border-radius: .5rem;
+  border: 1px solid;
+  border-color: ${theme.colors.gray[800]};
 
   background: ${theme.colors.gray[800]};
 
@@ -225,5 +243,13 @@ export const Question = styled.div`
         }
       }
     }
+  }
+
+  &.isAnswered {
+    opacity: .5;
+  }
+
+  &.isHighlighted {
+    border-color: ${theme.colors.green.medium};
   }
 `;

@@ -1,7 +1,7 @@
 import Head from "next/head";
 import Image from "next/image";
 import { useState } from "react";
-import { getSession } from "next-auth/react";
+import { getSession, signOut } from "next-auth/react";
 import { child, get, ref, update } from "firebase/database";
 import { GetServerSideProps, NextPage } from "next";
 
@@ -10,7 +10,7 @@ import { database } from "../../../services/firebase";
 import { CodeRoom } from "../../../components/Button/CodeRoom";
 import { CloseRoomModal } from "../../../components/Modal/CloseRoomModal";
 
-import { AdminRoomContainer, AdminRoomMain, ButtonCloseRoom, HeaderContainer, Question } from "./styles";
+import { AdminRoomContainer, AdminRoomMain, ButtonCloseRoom, ButtonLogout, HeaderContainer, Question } from "./styles";
 import { Chat, CheckCircle, ThumbsUp, Trash, TrashSimple } from "phosphor-react";
 import toast from "react-hot-toast";
 import { DeleteQuestionModal } from "../../../components/Modal/DeleteQuestionModal";
@@ -140,6 +140,10 @@ const AdminRoom: NextPage = ({ slug, room }: AdminRoomProps): JSX.Element => {
               <ButtonCloseRoom onClick={openModalCloseRoom}>
                 Encerrar sala
               </ButtonCloseRoom>
+
+              <ButtonLogout onClick={() => signOut()}>
+                Sair
+              </ButtonLogout>
             </div>
           </div>
         </HeaderContainer>
@@ -161,7 +165,7 @@ const AdminRoom: NextPage = ({ slug, room }: AdminRoomProps): JSX.Element => {
                   <Question
                     key={question.id}
                     className={`
-                      ${question.isHighlighted && "isHighlighted"}
+                      ${(question.isHighlighted && !question.isAnswered) && "isHighlighted"}
                       ${question.isAnswered && "isAnswered"}
                     `}
                   >
@@ -180,10 +184,14 @@ const AdminRoom: NextPage = ({ slug, room }: AdminRoomProps): JSX.Element => {
                             weight={question.isAnswered ? "fill" : "regular"}
                           />
                         </button>
-                        <button onClick={() => handleCheckQuestionAsHighlighted(question.id)}>
+                        <button
+                          disabled={question.isAnswered}
+                          onClick={() => handleCheckQuestionAsHighlighted(question.id)}
+                          className={question.isAnswered ? "isDisabled" : ""}
+                        >
                           <Chat
                             size={24}
-                            weight={question.isHighlighted ? "fill" : "regular"}
+                            weight={(question.isHighlighted && !question.isAnswered) ? "fill" : "regular"}
                           />
                         </button>
                         <button onClick={() => {

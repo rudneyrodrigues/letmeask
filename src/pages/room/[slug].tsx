@@ -1,18 +1,19 @@
 import Head from "next/head";
 import Image from "next/image";
 import toast from "react-hot-toast";
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { GetServerSideProps, NextPage } from "next";
-import { getSession, signIn, useSession } from "next-auth/react";
-import { child, get, push, ref, remove, update } from "firebase/database";
+import { getSession, signIn, signOut, useSession } from "next-auth/react";
+import { child, get, onValue, push, ref, remove, update } from "firebase/database";
 
 import { useRoom } from "../../hooks/useRoom";
 import { Button } from "../../components/Button";
 import { database } from "../../services/firebase";
 import { CodeRoom } from "../../components/Button/CodeRoom";
 
-import { HeaderContainer, Question, UserRoomContainer, UserRoomMain } from "./styles";
+import { ButtonLogout, HeaderContainer, Question, UserRoomContainer, UserRoomMain } from "./styles";
 import { Heart, ThumbsUp } from "phosphor-react";
+import { useRouter } from "next/router";
 
 interface RoomProps {
   title: string;
@@ -26,6 +27,7 @@ interface UserRoomProps {
 }
 
 const UserRoom: NextPage = ({ slug, room }: UserRoomProps): JSX.Element => {
+  const router = useRouter();
   const { data: session } = useSession();
   const [newQuestion, setNewQuestion] = useState('');
 
@@ -146,6 +148,23 @@ const UserRoom: NextPage = ({ slug, room }: UserRoomProps): JSX.Element => {
     }
   }
 
+  useEffect(() => {
+    const roomRef = ref(database, `rooms/${slug}`);
+
+    onValue(roomRef, snapshot => {
+      const room = snapshot.val();
+
+      if (room.endedAt) {
+        toast.success("Sala encerrada!", {
+          position: "top-center",
+          duration: 5000,
+        });
+
+        router.push("/");
+      }
+    })
+  }, [slug, router]);
+
   return (
     <>
       <Head>
@@ -164,6 +183,10 @@ const UserRoom: NextPage = ({ slug, room }: UserRoomProps): JSX.Element => {
 
             <div className="button-container">
               <CodeRoom code={slug} />
+
+              <ButtonLogout onClick={() => signOut()}>
+                Sair
+              </ButtonLogout>
             </div>
           </div>
         </HeaderContainer>
@@ -208,7 +231,13 @@ const UserRoom: NextPage = ({ slug, room }: UserRoomProps): JSX.Element => {
             <div className="questions-container">
               {questions.map(question => {
                 return (
-                  <Question key={question.id}>
+                  <Question
+                    key={question.id}
+                    className={`
+                      ${(question.isHighlighted && !question.isAnswered) && "isHighlighted"}
+                      ${question.isAnswered && "isAnswered"}
+                    `}
+                  >
                     <p>{question.content}</p>
 
                     <footer>
@@ -226,7 +255,7 @@ const UserRoom: NextPage = ({ slug, room }: UserRoomProps): JSX.Element => {
                       <div>
                         { question.likeCount > 0 && <span>{question.likeCount}</span> }
                         <button
-                          disabled={!session ? true : false}
+                          disabled={!session || question.isAnswered ? true : false}
                           onClick={() => handleLikeQuestion(question.id, question.likeId)}
                         >
                           <ThumbsUp size={24} weight={question.likeId ? "fill" : "regular"} />

@@ -11,7 +11,7 @@ import { child, push, ref, set } from "firebase/database";
 import { Button } from "../../../components/Button";
 import { database } from "../../../services/firebase";
 
-import styles from "./styles";
+import styles from "../../../styles/pages/new.styles";
 
 const NewRoom: NextPage = (): JSX.Element => {
   const router = useRouter();

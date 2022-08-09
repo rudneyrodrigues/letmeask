@@ -3,9 +3,9 @@ import Image from "next/image";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { GetServerSideProps, NextPage } from "next";
-import { getSession, signOut } from "next-auth/react";
 import { child, get, ref, update } from "firebase/database";
 import { Chat, CheckCircle, TrashSimple } from "phosphor-react";
+import { getSession, signOut, useSession } from "next-auth/react";
 
 import { useRoom } from "../../../hooks/useRoom";
 import { database } from "../../../services/firebase";
@@ -13,7 +13,7 @@ import { CodeRoom } from "../../../components/Button/CodeRoom";
 import { CloseRoomModal } from "../../../components/Modal/CloseRoomModal";
 import { DeleteQuestionModal } from "../../../components/Modal/DeleteQuestionModal";
 
-import styles from "./styles";
+import styles from "../../../styles/pages/admin.styles";
 
 interface RoomProps {
   title: string;
@@ -27,6 +27,7 @@ interface AdminRoomProps {
 }
 
 const AdminRoom: NextPage = ({ slug, room }: AdminRoomProps): JSX.Element => {
+  const { data: session } = useSession();
   const [deleteQuestionId, setDeleteQuestionId] = useState('');
 
   const [isOpenModalCloseRoom, setIsOpenModalCloseRoom] = useState(false);
@@ -141,9 +142,11 @@ const AdminRoom: NextPage = ({ slug, room }: AdminRoomProps): JSX.Element => {
                 Encerrar sala
               </styles.ButtonCloseRoom>
 
-              <styles.ButtonLogout onClick={() => signOut()}>
-                Sair
-              </styles.ButtonLogout>
+              {session && (
+                <styles.ButtonLogout onClick={() => signOut()}>
+                  Sair
+                </styles.ButtonLogout>
+              )}
             </div>
           </div>
         </styles.HeaderContainer>

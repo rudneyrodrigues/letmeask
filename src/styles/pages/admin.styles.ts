@@ -1,39 +1,14 @@
 import styled from 'styled-components';
 
-import { theme } from '../../styles/theme';
+import { theme } from '../theme';
 
-const UserRoomContainer = styled.div`
+const AdminRoomContainer = styled.div`
   display: flex;
   flex-direction: column;
   min-height: 100vh;
 `;
 
-const HeaderContainer = styled.header`
-  height: 5rem;
-  padding: 0 1rem;
-
-  border-bottom: 1px solid;
-  border-color: ${theme.colors.gray[800]};
-
-  .header-content {
-    width: 100%;
-    max-width: 1120px;
-    height: 5rem;
-    margin: 0 auto;
-
-    display: flex;
-    align-items: center;
-  }
-
-  .button-container {
-    margin-left: auto;
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-  }
-`;
-
-const UserRoomMain = styled.main`
+const AdminRoomMain = styled.main`
   width: 100%;
   height: 100%;
   max-width: 50rem;
@@ -72,54 +47,6 @@ const UserRoomMain = styled.main`
     }
   }
 
-  .input-new-question {
-    display: flex;
-    flex-direction: column;
-
-    & > textarea {
-      width: 100%;
-      height: 8rem;
-      padding: 1rem;
-
-      border: none;
-      border-radius: .5rem;
-
-      background: ${theme.colors.gray[800]};
-      color: ${theme.colors.gray[100]};
-
-      resize: none;
-    }
-
-    .input-new-question-footer {
-      margin-top: 1rem;
-
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-
-      & > p {
-        font-size: .875rem;
-        font-weight: 600;
-        line-height: 21px;
-        color: ${theme.colors.gray[300]};
-
-        & > span {
-          color: ${theme.colors.green.light};
-          cursor: pointer;
-
-          &:hover {
-            text-decoration: underline;
-          }
-        }
-      }
-
-      & > button {
-        width: auto;
-        margin-left: auto;
-      }
-    }
-  }
-
   .questions-container {
     margin-top: 2rem;
 
@@ -128,9 +55,8 @@ const UserRoomMain = styled.main`
     gap: 1rem;
   }
 
-  .no-question {
+  & > .no-question {
     height: 100%;
-    margin-top: 4rem;
     flex: 1;
 
     display: flex;
@@ -157,6 +83,51 @@ const UserRoomMain = styled.main`
       font-weight: 400;
       line-height: 21px;
     }
+  }
+`
+
+const HeaderContainer = styled.header`
+  height: 5rem;
+  padding: 0 1rem;
+
+  border-bottom: 1px solid;
+  border-color: ${theme.colors.gray[800]};
+
+  .header-content {
+    width: 100%;
+    max-width: 1120px;
+    height: 5rem;
+    margin: 0 auto;
+
+    display: flex;
+    align-items: center;
+    /* justify-content: space-between; */
+  }
+
+  .button-container {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+`;
+
+const ButtonCloseRoom = styled.button`
+  height: 2.5rem;
+  padding: 0 1rem;
+  
+  border: 1px solid;
+  border-radius: .5rem;
+  border-color: ${theme.colors.semantic.negative};
+
+  color: ${theme.colors.semantic.negative};
+  background: ${theme.colors.gray[900]};
+
+  transition: background, color, .2s ease-in-out;
+
+  &:hover {
+    background: ${theme.colors.semantic.negative};
+    color: ${theme.colors.gray[100]};
   }
 `;
 
@@ -241,6 +212,10 @@ const Question = styled.div`
         &:hover {
           background: ${theme.colors.gray[900]};
         }
+
+        &.isDisabled {
+          display: none;
+        }
       }
     }
   }
@@ -255,9 +230,10 @@ const Question = styled.div`
 `;
 
 export default {
-  UserRoomContainer,
+  AdminRoomContainer,
+  AdminRoomMain,
   HeaderContainer,
-  UserRoomMain,
+  ButtonCloseRoom,
   ButtonLogout,
-  Question,
+  Question
 }

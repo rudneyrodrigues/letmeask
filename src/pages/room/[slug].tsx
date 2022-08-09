@@ -13,7 +13,7 @@ import { Button } from "../../components/Button";
 import { database } from "../../services/firebase";
 import { CodeRoom } from "../../components/Button/CodeRoom";
 
-import styles from "./styles";
+import styles from "../../styles/pages/room.styles";
 
 interface RoomProps {
   title: string;
@@ -184,9 +184,11 @@ const UserRoom: NextPage = ({ slug, room }: UserRoomProps): JSX.Element => {
             <div className="button-container">
               <CodeRoom code={slug} />
 
-              <styles.ButtonLogout onClick={() => signOut()}>
-                Sair
-              </styles.ButtonLogout>
+              {session && (
+                <styles.ButtonLogout onClick={() => signOut()}>
+                  Sair
+                </styles.ButtonLogout>
+              )}
             </div>
           </div>
         </styles.HeaderContainer>

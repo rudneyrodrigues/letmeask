@@ -11,7 +11,7 @@ import { GoogleLogo, SignIn, Spinner } from 'phosphor-react';
 import { Button } from '../components/Button';
 import { database } from '../services/firebase';
 
-import { ContentContainer, GoogleButton, HomeContainer, IllustrationContainer } from './home.styles';
+import styles from '../styles/pages/home.styles';
 
 const Home: NextPage = (): JSX.Element => {
   const router = useRouter();
@@ -80,8 +80,8 @@ const Home: NextPage = (): JSX.Element => {
         <title>Home - Letmeask</title>
       </Head>
 
-      <HomeContainer>
-        <IllustrationContainer>
+      <styles.HomeContainer>
+        <styles.IllustrationContainer>
           <Image
             src="/images/Illustration.svg"
             alt="Illustration"
@@ -91,9 +91,9 @@ const Home: NextPage = (): JSX.Element => {
 
           <strong>Toda pergunta tem uma resposta.</strong>
           <span>Aprenda e compartilhe conhecimento com outras pessoas.</span>
-        </IllustrationContainer>
+        </styles.IllustrationContainer>
 
-        <ContentContainer>
+        <styles.ContentContainer>
           <div>
             <Image
               src="/images/Logo.svg"
@@ -102,10 +102,10 @@ const Home: NextPage = (): JSX.Element => {
               width={154}
             />
 
-            <GoogleButton onClick={handleCreateNewRoom}>
+            <styles.GoogleButton onClick={handleCreateNewRoom}>
               <GoogleLogo size={24} weight="bold" />
               Crie sua sala com o Google
-            </GoogleButton>
+            </styles.GoogleButton>
 
             <div className="separator">ou entre em uma sala</div>
 
@@ -127,8 +127,8 @@ const Home: NextPage = (): JSX.Element => {
               </Button>
             </form>
           </div>
-        </ContentContainer>
-      </HomeContainer>
+        </styles.ContentContainer>
+      </styles.HomeContainer>
     </>
   )
 }

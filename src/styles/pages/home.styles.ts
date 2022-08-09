@@ -1,13 +1,13 @@
 import styled from 'styled-components';
 
-import { theme } from '../styles/theme';
+import { theme } from '../theme';
 
-export const HomeContainer = styled.div`
+const HomeContainer = styled.div`
   display: flex;
   min-height: 100vh;
 `;
 
-export const IllustrationContainer = styled.div`
+const IllustrationContainer = styled.div`
   max-width: 50%;
 
   flex: 1;
@@ -66,7 +66,7 @@ export const IllustrationContainer = styled.div`
   }
 `;
 
-export const ContentContainer = styled.div`
+const ContentContainer = styled.div`
   max-width: 50%;
   display: flex;
   align-items: center;
@@ -136,7 +136,7 @@ export const ContentContainer = styled.div`
   }
 `;
 
-export const GoogleButton = styled.button`
+const GoogleButton = styled.button`
   width: 100%;
   height: 3.125rem;
   padding: 1rem 2.875rem;
@@ -159,3 +159,10 @@ export const GoogleButton = styled.button`
     filter: brightness(.8);
   }
 `;
+
+export default {
+  HomeContainer,
+  IllustrationContainer,
+  ContentContainer,
+  GoogleButton,
+}

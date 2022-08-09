@@ -2,13 +2,13 @@ import styled from 'styled-components';
 
 import { theme } from '../../../styles/theme';
 
-export const AdminRoomContainer = styled.div`
+const AdminRoomContainer = styled.div`
   display: flex;
   flex-direction: column;
   min-height: 100vh;
 `;
 
-export const AdminRoomMain = styled.main`
+const AdminRoomMain = styled.main`
   width: 100%;
   height: 100%;
   max-width: 50rem;
@@ -86,7 +86,7 @@ export const AdminRoomMain = styled.main`
   }
 `
 
-export const HeaderContainer = styled.header`
+const HeaderContainer = styled.header`
   height: 5rem;
   padding: 0 1rem;
 
@@ -112,7 +112,7 @@ export const HeaderContainer = styled.header`
   }
 `;
 
-export const ButtonCloseRoom = styled.button`
+const ButtonCloseRoom = styled.button`
   height: 2.5rem;
   padding: 0 1rem;
   
@@ -131,7 +131,7 @@ export const ButtonCloseRoom = styled.button`
   }
 `;
 
-export const ButtonLogout = styled.button`
+const ButtonLogout = styled.button`
   height: 2.5rem;
   padding: 0 1rem;
   
@@ -147,7 +147,7 @@ export const ButtonLogout = styled.button`
   }
 `;
 
-export const Question = styled.div`
+const Question = styled.div`
   width: 100%;
   padding: 1.5rem;
 
@@ -228,3 +228,12 @@ export const Question = styled.div`
     border-color: ${theme.colors.green.medium};
   }
 `;
+
+export default {
+  AdminRoomContainer,
+  AdminRoomMain,
+  HeaderContainer,
+  ButtonCloseRoom,
+  ButtonLogout,
+  Question
+}

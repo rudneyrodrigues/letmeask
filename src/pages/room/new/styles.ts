@@ -2,12 +2,12 @@ import styled from 'styled-components';
 
 import { theme } from '../../../styles/theme';
 
-export const NewRoomContainer = styled.div`
+const NewRoomContainer = styled.div`
   display: flex;
   min-height: 100vh;
 `;
 
-export const IllustrationContainer = styled.div`
+const IllustrationContainer = styled.div`
   max-width: 50%;
 
   flex: 1;
@@ -66,7 +66,7 @@ export const IllustrationContainer = styled.div`
   }
 `;
 
-export const ContentContainer = styled.div`
+const ContentContainer = styled.div`
   max-width: 50%;
   display: flex;
   align-items: center;
@@ -139,3 +139,9 @@ export const ContentContainer = styled.div`
     max-width: 100%;
   }
 `;
+
+export default {
+  NewRoomContainer,
+  IllustrationContainer,
+  ContentContainer,
+}

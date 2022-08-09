@@ -11,7 +11,7 @@ import { child, push, ref, set } from "firebase/database";
 import { Button } from "../../../components/Button";
 import { database } from "../../../services/firebase";
 
-import { ContentContainer, IllustrationContainer, NewRoomContainer } from "./styles";
+import styles from "./styles";
 
 const NewRoom: NextPage = (): JSX.Element => {
   const router = useRouter();
@@ -53,8 +53,8 @@ const NewRoom: NextPage = (): JSX.Element => {
         <title>Nova sala - Letmeask</title>
       </Head>
 
-      <NewRoomContainer>
-        <IllustrationContainer>
+      <styles.NewRoomContainer>
+        <styles.IllustrationContainer>
           <Image
             src="/images/Illustration.svg"
             alt="Illustration"
@@ -64,9 +64,9 @@ const NewRoom: NextPage = (): JSX.Element => {
 
           <strong>Toda pergunta tem uma resposta.</strong>
           <span>Aprenda e compartilhe conhecimento com outras pessoas.</span>
-        </IllustrationContainer>
+        </styles.IllustrationContainer>
 
-        <ContentContainer>
+        <styles.ContentContainer>
           <div>
             <Image
               src="/images/Logo.svg"
@@ -97,8 +97,8 @@ const NewRoom: NextPage = (): JSX.Element => {
               </Link>
             </span>
           </div>
-        </ContentContainer>
-      </NewRoomContainer>
+        </styles.ContentContainer>
+      </styles.NewRoomContainer>
     </>
   )
 }

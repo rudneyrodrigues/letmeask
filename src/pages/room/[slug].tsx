@@ -1,8 +1,10 @@
 import Head from "next/head";
 import Image from "next/image";
 import toast from "react-hot-toast";
-import { FormEvent, useEffect, useState } from "react";
+import { useRouter } from "next/router";
+import { Heart, ThumbsUp } from "phosphor-react";
 import { GetServerSideProps, NextPage } from "next";
+import { FormEvent, useEffect, useState } from "react";
 import { getSession, signIn, signOut, useSession } from "next-auth/react";
 import { child, get, onValue, push, ref, remove, update } from "firebase/database";
 
@@ -11,9 +13,7 @@ import { Button } from "../../components/Button";
 import { database } from "../../services/firebase";
 import { CodeRoom } from "../../components/Button/CodeRoom";
 
-import { ButtonLogout, HeaderContainer, Question, UserRoomContainer, UserRoomMain } from "./styles";
-import { Heart, ThumbsUp } from "phosphor-react";
-import { useRouter } from "next/router";
+import styles from "./styles";
 
 interface RoomProps {
   title: string;
@@ -171,8 +171,8 @@ const UserRoom: NextPage = ({ slug, room }: UserRoomProps): JSX.Element => {
         <title>{`${room?.title} - Letmeask`}</title>
       </Head>
 
-      <UserRoomContainer>
-        <HeaderContainer>
+      <styles.UserRoomContainer>
+        <styles.HeaderContainer>
           <div className="header-content">
             <Image
               src="/images/Logo.svg"
@@ -184,14 +184,14 @@ const UserRoom: NextPage = ({ slug, room }: UserRoomProps): JSX.Element => {
             <div className="button-container">
               <CodeRoom code={slug} />
 
-              <ButtonLogout onClick={() => signOut()}>
+              <styles.ButtonLogout onClick={() => signOut()}>
                 Sair
-              </ButtonLogout>
+              </styles.ButtonLogout>
             </div>
           </div>
-        </HeaderContainer>
+        </styles.HeaderContainer>
 
-        <UserRoomMain>
+        <styles.UserRoomMain>
           <div className="title">
             <h1>Sala {room.title}</h1>
             {questions.length <= 1 ? (
@@ -231,7 +231,7 @@ const UserRoom: NextPage = ({ slug, room }: UserRoomProps): JSX.Element => {
             <div className="questions-container">
               {questions.map(question => {
                 return (
-                  <Question
+                  <styles.Question
                     key={question.id}
                     className={`
                       ${(question.isHighlighted && !question.isAnswered) && "isHighlighted"}
@@ -262,7 +262,7 @@ const UserRoom: NextPage = ({ slug, room }: UserRoomProps): JSX.Element => {
                         </button>
                       </div>
                     </footer>
-                  </Question>
+                  </styles.Question>
                 )
               })}
             </div>
@@ -284,8 +284,8 @@ const UserRoom: NextPage = ({ slug, room }: UserRoomProps): JSX.Element => {
               </span>
             </div>
           )}
-        </UserRoomMain>
-      </UserRoomContainer>
+        </styles.UserRoomMain>
+      </styles.UserRoomContainer>
     </>
   )
 }

@@ -1,19 +1,19 @@
 import Head from "next/head";
 import Image from "next/image";
 import { useState } from "react";
+import toast from "react-hot-toast";
+import { GetServerSideProps, NextPage } from "next";
 import { getSession, signOut } from "next-auth/react";
 import { child, get, ref, update } from "firebase/database";
-import { GetServerSideProps, NextPage } from "next";
+import { Chat, CheckCircle, TrashSimple } from "phosphor-react";
 
 import { useRoom } from "../../../hooks/useRoom";
 import { database } from "../../../services/firebase";
 import { CodeRoom } from "../../../components/Button/CodeRoom";
 import { CloseRoomModal } from "../../../components/Modal/CloseRoomModal";
-
-import { AdminRoomContainer, AdminRoomMain, ButtonCloseRoom, ButtonLogout, HeaderContainer, Question } from "./styles";
-import { Chat, CheckCircle, ThumbsUp, Trash, TrashSimple } from "phosphor-react";
-import toast from "react-hot-toast";
 import { DeleteQuestionModal } from "../../../components/Modal/DeleteQuestionModal";
+
+import styles from "./styles";
 
 interface RoomProps {
   title: string;
@@ -124,8 +124,8 @@ const AdminRoom: NextPage = ({ slug, room }: AdminRoomProps): JSX.Element => {
         <title>{`${room?.title} - letmeask`}</title>
       </Head>
 
-      <AdminRoomContainer>
-        <HeaderContainer>
+      <styles.AdminRoomContainer>
+        <styles.HeaderContainer>
           <div className="header-content">
             <Image
               src="/images/Logo.svg"
@@ -137,18 +137,18 @@ const AdminRoom: NextPage = ({ slug, room }: AdminRoomProps): JSX.Element => {
             <div className="button-container">
               <CodeRoom code={slug} />
 
-              <ButtonCloseRoom onClick={openModalCloseRoom}>
+              <styles.ButtonCloseRoom onClick={openModalCloseRoom}>
                 Encerrar sala
-              </ButtonCloseRoom>
+              </styles.ButtonCloseRoom>
 
-              <ButtonLogout onClick={() => signOut()}>
+              <styles.ButtonLogout onClick={() => signOut()}>
                 Sair
-              </ButtonLogout>
+              </styles.ButtonLogout>
             </div>
           </div>
-        </HeaderContainer>
+        </styles.HeaderContainer>
 
-        <AdminRoomMain>
+        <styles.AdminRoomMain>
           <div className="title">
             <h1>Sala {room.title}</h1>
             {questions.length <= 1 ? (
@@ -162,7 +162,7 @@ const AdminRoom: NextPage = ({ slug, room }: AdminRoomProps): JSX.Element => {
             <div className="questions-container">
               {questions.map(question => {
                 return (
-                  <Question
+                  <styles.Question
                     key={question.id}
                     className={`
                       ${(question.isHighlighted && !question.isAnswered) && "isHighlighted"}
@@ -202,7 +202,7 @@ const AdminRoom: NextPage = ({ slug, room }: AdminRoomProps): JSX.Element => {
                         </button>
                       </div>
                     </footer>
-                  </Question>
+                  </styles.Question>
                 )
               })}
             </div>
@@ -224,8 +224,8 @@ const AdminRoom: NextPage = ({ slug, room }: AdminRoomProps): JSX.Element => {
               </span>
             </div>
           )}
-        </AdminRoomMain>
-      </AdminRoomContainer>
+        </styles.AdminRoomMain>
+      </styles.AdminRoomContainer>
 
       <CloseRoomModal
         roomId={slug}

@@ -2,13 +2,13 @@ import styled from 'styled-components';
 
 import { theme } from '../../styles/theme';
 
-export const UserRoomContainer = styled.div`
+const UserRoomContainer = styled.div`
   display: flex;
   flex-direction: column;
   min-height: 100vh;
 `;
 
-export const HeaderContainer = styled.header`
+const HeaderContainer = styled.header`
   height: 5rem;
   padding: 0 1rem;
 
@@ -33,7 +33,7 @@ export const HeaderContainer = styled.header`
   }
 `;
 
-export const UserRoomMain = styled.main`
+const UserRoomMain = styled.main`
   width: 100%;
   height: 100%;
   max-width: 50rem;
@@ -160,7 +160,7 @@ export const UserRoomMain = styled.main`
   }
 `;
 
-export const ButtonLogout = styled.button`
+const ButtonLogout = styled.button`
   height: 2.5rem;
   padding: 0 1rem;
   
@@ -176,7 +176,7 @@ export const ButtonLogout = styled.button`
   }
 `;
 
-export const Question = styled.div`
+const Question = styled.div`
   width: 100%;
   padding: 1.5rem;
 
@@ -253,3 +253,11 @@ export const Question = styled.div`
     border-color: ${theme.colors.green.medium};
   }
 `;
+
+export default {
+  UserRoomContainer,
+  HeaderContainer,
+  UserRoomMain,
+  ButtonLogout,
+  Question,
+}

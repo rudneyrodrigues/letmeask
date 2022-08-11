@@ -58,10 +58,10 @@ NEXTAUTH_URL=
 
 Siga-me para mais conteúdo.
 
-<div style="display:flex; align-items:center; justify-content:center; gap:16px; margin-top: 24px;">
+<h1 align="center>
 
 ![Linkedin Badge](https://img.shields.io/badge/-Rudney%20Rodrigues-6633cc?style=flat-square&logo=Linkedin&logoColor=white&link=https://www.linkedin.com/in/rudney.rodrigues.3/)
 
 ![Instagram Badge](https://img.shields.io/badge/-Rudney%20Rodrigues-3f729b?style=flat-square&logo=Instagram&logoColor=white&link=https://www.instagram.com/rudney.rodrigues.3/)
 
-</div>
+</h1>

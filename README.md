@@ -57,7 +57,5 @@ NEXTAUTH_URL=
 ## **Contato**
 
 Siga-me para mais conteúdo.
-
-<h1 align="center>
            
 ![Instagram Badge](https://img.shields.io/badge/-Rudney%20Rodrigues-3f729b?style=flat-square&logo=Instagram&logoColor=white&link=https://www.instagram.com/rudney.rodrigues.3/)

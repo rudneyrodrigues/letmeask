@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
-import { child, get, onValue, ref } from "firebase/database";
+import { onValue, ref } from "firebase/database";
 
 import { database } from "../services/firebase";
 
@@ -53,7 +53,7 @@ export const useRoom = (roomId: string) => {
           likeId: Object.entries(question.likes ?? {}).find(([key, like]) => like.authorId === session?.user?.email)?.[0]
         }
       });
-      
+
       setQuestions(questionsArray);
     });
   }, [roomId, session]);

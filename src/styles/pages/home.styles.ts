@@ -160,7 +160,7 @@ const GoogleButton = styled.button`
   }
 `;
 
-export default {
+export {
   HomeContainer,
   IllustrationContainer,
   ContentContainer,

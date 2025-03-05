@@ -5,6 +5,7 @@ import type { VariantProps } from 'class-variance-authority'
 
 import { cn } from '@/lib/utils'
 import { variants } from './variants'
+import { Icon, IconName } from '../icon'
 
 export interface ButtonProps
 	extends React.ButtonHTMLAttributes<HTMLButtonElement>,
@@ -12,6 +13,8 @@ export interface ButtonProps
 	asChild?: boolean
 	loading?: boolean
 	loadingText?: string
+	leftIcon?: IconName
+	rightIcon?: IconName
 }
 
 const Button = memo(
@@ -24,26 +27,37 @@ const Button = memo(
 				loadingText,
 				loading = false,
 				asChild = false,
+				leftIcon,
+				rightIcon,
 				...props
 			},
 			ref
 		) => {
+			const LeftIcon = leftIcon && Icon[leftIcon]
+			const RightIcon = rightIcon && Icon[rightIcon]
 			const Comp: React.ElementType = asChild ? Slot.Root : 'button'
 
 			return (
 				<Comp
 					ref={ref}
+					disabled={loading || props.disabled}
+					aria-disabled={loading || props.disabled}
 					className={cn(variants({ variant, size, className }))}
 					{...props}
 				>
-					{loading && (
-						<LoaderCircleIcon className='h-5 min-h-5 w-5 min-w-5 animate-spin' />
-					)}
-
 					{loading ? (
-						loadingText
+						<>
+							<LoaderCircleIcon className='h-5 min-h-5 w-5 min-w-5 animate-spin' />
+							{loadingText && loadingText}
+						</>
 					) : (
-						<Slot.Slottable>{props.children}</Slot.Slottable>
+						<Slot.Slottable>
+							{LeftIcon && <LeftIcon />}
+
+							{props.children}
+
+							{RightIcon && <RightIcon />}
+						</Slot.Slottable>
 					)}
 				</Comp>
 			)

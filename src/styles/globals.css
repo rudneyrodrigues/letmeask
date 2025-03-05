@@ -39,6 +39,9 @@
 	--zinc-900: oklch(18.31% 0.004 285.99);
 	--zinc-950: oklch(14.03% 0.0022 286.11);
 
+	--google: oklch(62.57% 0.2058 29.08);
+	--google-foreground: oklch(98.51% 0 0);
+
 	--nunito: 'Nunito', sans-serif;
 }
 
@@ -100,6 +103,9 @@
 	--color-zinc-800: var(--zinc-800);
 	--color-zinc-900: var(--zinc-900);
 	--color-zinc-950: var(--zinc-950);
+
+	--color-google: var(--google);
+	--color-google-foreground: var(--google-foreground);
 
 	--font-sans: var(--nunito);
 }

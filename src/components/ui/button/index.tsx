@@ -1,6 +1,6 @@
 import { Slot } from 'radix-ui'
 import { forwardRef, memo } from 'react'
-import { LoaderCircleIcon } from 'lucide-react'
+import { CircleNotch } from '@phosphor-icons/react'
 import type { VariantProps } from 'class-variance-authority'
 
 import { cn } from '@/lib/utils'
@@ -47,7 +47,7 @@ const Button = memo(
 				>
 					{loading ? (
 						<>
-							<LoaderCircleIcon className='h-5 min-h-5 w-5 min-w-5 animate-spin' />
+							<CircleNotch size={20} weight='bold' className='animate-spin' />
 							{loadingText && loadingText}
 						</>
 					) : (

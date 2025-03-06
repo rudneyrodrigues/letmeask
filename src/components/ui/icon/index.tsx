@@ -1,4 +1,5 @@
 import {
+	X,
 	SignIn,
 	ThumbsUp,
 	GoogleLogo,
@@ -8,6 +9,7 @@ import {
 } from '@phosphor-icons/react'
 
 export const Icon = {
+	close: X,
 	logIn: SignIn,
 	like: ThumbsUp,
 	google: GoogleLogo,

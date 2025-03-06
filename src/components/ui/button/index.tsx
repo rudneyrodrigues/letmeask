@@ -52,11 +52,11 @@ const Button = memo(
 						</>
 					) : (
 						<Slot.Slottable>
-							{LeftIcon && <LeftIcon />}
+							{LeftIcon && <LeftIcon size={24} weight='bold' />}
 
 							{props.children}
 
-							{RightIcon && <RightIcon />}
+							{RightIcon && <RightIcon size={24} weight='bold' />}
 						</Slot.Slottable>
 					)}
 				</Comp>

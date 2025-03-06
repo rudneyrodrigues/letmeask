@@ -1,4 +1,4 @@
-import { FC, JSX } from 'react'
+import { type FC, type FormEvent, JSX, useState } from 'react'
 
 import { Input } from '@/components/ui/input'
 import { Logo } from '@/components/assets/logo'
@@ -6,6 +6,14 @@ import { Button } from '@/components/ui/button'
 import { Illustration } from '@/components/assets/illustration'
 
 const Home: FC = (): JSX.Element => {
+	const [roomCode, setRoomCode] = useState('')
+
+	const handleEnterRoom = (e: FormEvent) => {
+		e.preventDefault()
+
+		console.log(`Entrar na sala ${roomCode}`)
+	}
+
 	return (
 		<div className='flex min-h-svh'>
 			<div className='bg-primary hidden flex-1 flex-col items-center justify-center p-4 lg:flex'>
@@ -38,15 +46,24 @@ const Home: FC = (): JSX.Element => {
 						Ou entre em uma sala
 					</span>
 
-					<form className='flex w-full flex-col gap-4'>
+					<form
+						onSubmit={handleEnterRoom}
+						className='flex w-full flex-col gap-4'
+					>
 						<Input
 							type='text'
 							name='room-code'
+							value={roomCode}
 							placeholder='Digite o código da sala'
+							onChange={e => setRoomCode(e.target.value.trim())}
 							className='h-12'
 						/>
 
-						<Button size='lg' leftIcon='logIn' className='w-full'>
+						<Button
+							size='lg'
+							leftIcon='logIn'
+							className='w-full cursor-pointer'
+						>
 							Entrar na sala
 						</Button>
 					</form>

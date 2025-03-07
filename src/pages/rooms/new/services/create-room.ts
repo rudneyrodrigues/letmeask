@@ -16,7 +16,8 @@ export const createRoom = async ({ roomTitle }: CreateRoomProps) => {
 	await set(ref(realtimeDB, 'rooms/' + roomUid), {
 		title: roomTitle,
 		createdAt: new Date().toISOString(),
-		createdBy: userUid
+		createdBy: userUid,
+		open: true
 	})
 
 	return roomUid

@@ -16,8 +16,8 @@ interface AuthProviderProps {
 }
 
 export interface AuthContextData {
-	user: User
 	loading: boolean
+	user: User | null
 	logout: () => Promise<void>
 	loginWithGoogle: () => Promise<void>
 }
@@ -26,7 +26,7 @@ const AuthContext = createContext<AuthContextData>({} as AuthContextData)
 
 const AuthProvider = ({ children }: AuthProviderProps) => {
 	const [loading, setLoading] = useState(false)
-	const [user, setUser] = useState<User>({} as User)
+	const [user, setUser] = useState<User | null>(null)
 
 	const loginWithGoogle = async () => {
 		setLoading(true)
@@ -77,7 +77,7 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
 
 		try {
 			await signOut(auth).then(() => {
-				setUser({} as User)
+				setUser(null)
 
 				destroyCookie(null, '@user.uid', {
 					path: '/'
@@ -109,7 +109,7 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
 					secure: import.meta.env.NODE_ENV === 'production'
 				})
 			} else {
-				setUser({} as User)
+				setUser(null)
 
 				destroyCookie(null, '@user.uid', {
 					path: '/'

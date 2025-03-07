@@ -1,6 +1,7 @@
 import {
 	X,
 	SignIn,
+	SignOut,
 	ThumbsUp,
 	GoogleLogo,
 	ChatCircle,
@@ -12,6 +13,7 @@ export const Icon = {
 	close: X,
 	logIn: SignIn,
 	like: ThumbsUp,
+	logOut: SignOut,
 	google: GoogleLogo,
 	chatCircle: ChatCircle,
 	checkCircle: CheckCircle,

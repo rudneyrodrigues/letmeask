@@ -16,7 +16,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
 		return (
 			<div
 				className={cn(
-					'border-border has-focus-visible:outline-primary has-focus:bg-muted relative flex h-10 w-full items-center rounded-md border p-0 text-white has-focus-visible:outline-2 has-focus-visible:outline-offset-2',
+					'border-border has-focus-visible:outline-outline has-focus:bg-muted relative flex h-10 w-full items-center rounded-md border p-0 text-white has-focus-visible:outline-2 has-focus-visible:outline-offset-2',
 					className
 				)}
 			>

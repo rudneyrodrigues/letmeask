@@ -2,10 +2,10 @@ import { Link } from 'react-router'
 import { FC, JSX, memo } from 'react'
 
 import { useAuth } from '@/hooks/use-auth'
-import { UserDropdown } from './user-dropdown'
 import { Logo } from '@/components/assets/logo'
 import { Button } from '@/components/ui/button'
 import { ButtonSignInGoogle } from './button-sign-in-google'
+import { UserDropdown } from '@/components/app/user-dropdown'
 
 const Header: FC = memo((): JSX.Element => {
 	const { user } = useAuth()

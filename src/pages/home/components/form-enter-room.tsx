@@ -17,6 +17,7 @@ const FormEnterRoom: FC = memo((): JSX.Element => {
 				type='text'
 				name='room-code'
 				value={roomCode}
+				autoComplete='off'
 				placeholder='Digite o código da sala'
 				onChange={e => setRoomCode(e.target.value.trim())}
 				className='h-12'

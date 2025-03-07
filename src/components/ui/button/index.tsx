@@ -1,6 +1,5 @@
 import { Slot } from 'radix-ui'
 import { forwardRef, memo } from 'react'
-import { CircleNotch } from '@phosphor-icons/react'
 import type { VariantProps } from 'class-variance-authority'
 
 import { cn } from '@/lib/utils'
@@ -45,20 +44,26 @@ const Button = memo(
 					className={cn(variants({ variant, size, className }))}
 					{...props}
 				>
+					{!loading && LeftIcon && <LeftIcon size={24} />}
+
 					{loading ? (
-						<>
-							<CircleNotch size={20} weight='bold' className='animate-spin' />
-							{loadingText && loadingText}
-						</>
-					) : (
 						<Slot.Slottable>
-							{LeftIcon && <LeftIcon size={24} weight='bold' />}
-
-							{props.children}
-
-							{RightIcon && <RightIcon size={24} weight='bold' />}
+							<div className='flex items-center justify-center gap-2'>
+								<Icon.loading
+									weight='bold'
+									size={size === 'lg' ? 24 : 20}
+									className='animate-spin'
+								/>
+								<span className='text-foreground inline-flex'>
+									{loadingText && loadingText}
+								</span>
+							</div>
 						</Slot.Slottable>
+					) : (
+						<Slot.Slottable>{props.children}</Slot.Slottable>
 					)}
+
+					{!loading && RightIcon && <RightIcon />}
 				</Comp>
 			)
 		}

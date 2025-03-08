@@ -6,13 +6,15 @@ import {
 	SignIn,
 	SignOut,
 	ThumbsUp,
+	Calendar,
 	CaretDown,
 	CaretRight,
 	GoogleLogo,
 	ChatCircle,
 	CheckCircle,
 	TrashSimple,
-	CircleNotch
+	CircleNotch,
+	WarningCircle
 } from '@phosphor-icons/react'
 
 export const Icon = {
@@ -24,8 +26,10 @@ export const Icon = {
 	circle: Circle,
 	logOut: SignOut,
 	google: GoogleLogo,
+	calendar: Calendar,
 	loading: CircleNotch,
 	arrowDown: CaretDown,
+	warning: WarningCircle,
 	arrowRight: CaretRight,
 	chatCircle: ChatCircle,
 	checkCircle: CheckCircle,

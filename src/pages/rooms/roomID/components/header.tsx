@@ -3,6 +3,7 @@ import { FC, JSX, memo } from 'react'
 
 import { Clipboard } from './clipboard'
 import { Logo } from '@/components/assets'
+import { UserDropdown } from '@/components/app/user-dropdown'
 
 const Header: FC = memo((): JSX.Element => {
 	return (
@@ -12,7 +13,10 @@ const Header: FC = memo((): JSX.Element => {
 					<Logo className='h-10 w-24' />
 				</Link>
 
-				<Clipboard value='51ee3a12-060d-490c-ae53-1e0234fade93' />
+				<div className='flex items-center gap-2'>
+					<Clipboard value='51ee3a12-060d-490c-ae53-1e0234fade93' />
+					<UserDropdown />
+				</div>
 			</div>
 		</header>
 	)

@@ -1,10 +1,16 @@
+import { Link } from 'react-router'
 import { type FC, JSX } from 'react'
 
-import { Header } from './components/header'
+import { useAuth } from '@/hooks/use-auth'
+import { Button } from '@/components/ui/button'
+import { Header } from '../../components/app/header'
 import { FormEnterRoom } from './components/form-enter-room'
 import { Illustration } from '@/components/assets/illustration'
+import { ButtonSignInGoogle } from './components/button-sign-in-google'
 
 const Home: FC = (): JSX.Element => {
+	const { user } = useAuth()
+
 	return (
 		<div className='flex min-h-svh'>
 			<section className='bg-primary hidden flex-1 flex-col items-center justify-center p-4 lg:flex'>
@@ -21,9 +27,25 @@ const Home: FC = (): JSX.Element => {
 				</div>
 			</section>
 
-			<section className='flex flex-1 flex-col items-center justify-center gap-4'>
-				<main className='flex w-full max-w-[320px] flex-col items-center justify-center rounded-md p-4'>
-					<Header />
+			<section className='flex flex-1 flex-col gap-4'>
+				<Header />
+
+				<main className='mx-auto flex w-full max-w-sm flex-1 flex-col items-center justify-center rounded-md p-4'>
+					<div className='w-full'>
+						{!user ? (
+							<ButtonSignInGoogle />
+						) : (
+							<Button
+								size='lg'
+								leftIcon='add'
+								variant='secondary'
+								className='w-full'
+								asChild
+							>
+								<Link to='/rooms/new'>Criar uma nova sala</Link>
+							</Button>
+						)}
+					</div>
 
 					<span className='text-muted-foreground before:content-[] before:bg-muted after:content-[] after:bg-muted my-8 flex w-full items-center gap-2 truncate text-sm font-normal lowercase before:h-[1px] before:w-full after:h-[1px] after:w-full'>
 						Ou entre em uma sala

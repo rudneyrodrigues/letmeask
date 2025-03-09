@@ -23,12 +23,12 @@ const UserDropdown: FC = memo((): JSX.Element => {
 	}
 
 	if (loading || !user) {
-		return <Skeleton className='size-12 min-w-12 rounded-full' />
+		return <Skeleton className='size-10 min-w-10 rounded-full' />
 	}
 
 	return (
 		<DropdownMenu>
-			<DropdownMenuTrigger className='size-12 min-w-12 rounded-full border focus:outline-2 focus:outline-offset-2'>
+			<DropdownMenuTrigger className='size-10 min-w-10 rounded-full border focus:outline-2 focus:outline-offset-2'>
 				<img
 					alt='Rudney Rodrigues do Nascimento'
 					src='https://avatars.githubusercontent.com/u/68288226?v=4'

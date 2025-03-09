@@ -55,10 +55,7 @@ const FormCreateRoom: FC = memo((): JSX.Element => {
 	}
 
 	return (
-		<form
-			onSubmit={handleEnterRoom}
-			className='mt-14 flex w-full flex-col gap-4'
-		>
+		<form onSubmit={handleEnterRoom} className='flex w-full flex-col gap-4'>
 			<Input
 				type='text'
 				name='room-title'

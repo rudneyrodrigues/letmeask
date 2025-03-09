@@ -1,7 +1,7 @@
 import { FC, JSX, memo } from 'react'
 
 import { Icon } from '@/components/ui/icon'
-import { Header } from './components/header'
+import { Header } from '@/components/app/header'
 import { CardRoom } from './components/card-room'
 import { Illustration } from '@/components/assets'
 import { useGetAllRooms } from '@/hooks/swr/use-get-all-rooms'
@@ -26,10 +26,10 @@ const Rooms: FC = memo((): JSX.Element => {
 				</div>
 			</section>
 
-			<section className='flex flex-1 flex-col items-center justify-center gap-4'>
-				<main className='flex w-full max-w-sm flex-col items-center justify-center gap-8 rounded-md p-4'>
-					<Header />
+			<section className='flex flex-1 flex-col gap-4'>
+				<Header />
 
+				<main className='mx-auto flex w-full max-w-md flex-1 flex-col items-center justify-center rounded-md p-4'>
 					{isLoading ? (
 						<div className='flex flex-col items-center justify-center gap-2'>
 							<Icon.loading

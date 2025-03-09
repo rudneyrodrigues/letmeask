@@ -1,7 +1,8 @@
 import { Link } from 'react-router'
 import { FC, JSX, memo } from 'react'
 
-import { Logo, Illustration } from '@/components/assets'
+import { Header } from '@/components/app/header'
+import { Illustration } from '@/components/assets'
 import { FormCreateRoom } from './components/form-create-room'
 
 const RoomNew: FC = memo((): JSX.Element => {
@@ -21,12 +22,10 @@ const RoomNew: FC = memo((): JSX.Element => {
 				</div>
 			</section>
 
-			<section className='flex flex-1 flex-col items-center justify-center gap-4'>
-				<main className='flex w-full max-w-[320px] flex-col items-center justify-center rounded-md p-4'>
-					<header className='flex w-full flex-col items-center justify-center gap-14'>
-						<Logo />
-					</header>
+			<section className='flex flex-1 flex-col gap-4'>
+				<Header />
 
+				<main className='mx-auto flex w-full max-w-sm flex-1 flex-col items-center justify-center rounded-md p-4'>
 					<FormCreateRoom />
 
 					<div className='mt-4 space-x-1'>

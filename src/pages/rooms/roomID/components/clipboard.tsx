@@ -25,7 +25,7 @@ const Clipboard: FC<ClipboardProps> = memo(
 
 		return (
 			<div className='flex items-center gap-2 rounded-md md:border md:p-1'>
-				<span className='hidden w-full max-w-60 min-w-20 truncate pl-1 text-sm font-semibold md:block'>
+				<span className='hidden w-full max-w-60 min-w-20 truncate pl-2 text-sm font-semibold md:block'>
 					{value}
 				</span>
 

@@ -4,9 +4,9 @@ import { type FC, JSX } from 'react'
 import { useAuth } from '@/hooks/use-auth'
 import { Button } from '@/components/ui/button'
 import { Header } from '../../components/app/header'
-import { FormEnterRoom } from './components/form-enter-room'
+import { FormEnterRoom } from './sections/form-enter-room'
 import { Illustration } from '@/components/assets/illustration'
-import { ButtonSignInGoogle } from './components/button-sign-in-google'
+import { ButtonSignInGoogle } from '../../components/app/button-sign-in-google'
 
 const Home: FC = (): JSX.Element => {
 	const { user } = useAuth()

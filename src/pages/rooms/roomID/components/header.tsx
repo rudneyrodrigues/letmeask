@@ -2,12 +2,10 @@ import { Link } from 'react-router'
 import { FC, JSX, memo } from 'react'
 
 import { Clipboard } from './clipboard'
+import { CloseRoom } from './close-room'
 import { Logo } from '@/components/assets'
 import { useAuth } from '@/hooks/use-auth'
 import { RoomProps } from '@/config/types'
-import { Button } from '@/components/ui/button'
-import { useIsMobile } from '@/hooks/use-mobile'
-import { ButtonIcon } from '@/components/ui/button-icon'
 import { UserDropdown } from '@/components/app/user-dropdown'
 import { ButtonSignInGoogle } from '@/components/app/button-sign-in-google'
 
@@ -17,7 +15,6 @@ interface HeaderProps {
 
 const Header: FC<HeaderProps> = memo(({ room }: HeaderProps): JSX.Element => {
 	const { user } = useAuth()
-	const isMobile = useIsMobile()
 
 	const userIsRoomOwner = user && user.uid === room.createdBy
 
@@ -29,25 +26,7 @@ const Header: FC<HeaderProps> = memo(({ room }: HeaderProps): JSX.Element => {
 				</Link>
 
 				<div className='flex items-center gap-2'>
-					{room.open && userIsRoomOwner && (
-						<>
-							{isMobile ? (
-								<ButtonIcon
-									icon='trashSimple'
-									variant='destructive'
-									className='cursor-pointer'
-								/>
-							) : (
-								<Button
-									variant='destructive'
-									leftIcon='trashSimple'
-									className='cursor-pointer'
-								>
-									Encerrar sala
-								</Button>
-							)}
-						</>
-					)}
+					{room.open && userIsRoomOwner && <CloseRoom roomId={room.uid} />}
 
 					{room.open && <Clipboard value={room.uid} />}
 

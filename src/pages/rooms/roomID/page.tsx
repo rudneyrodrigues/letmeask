@@ -12,7 +12,6 @@ import { useGetRoomById } from '@/hooks/swr/use-get-room-by-id'
 const RoomID: FC = memo((): JSX.Element => {
 	const { roomID } = useParams() as { roomID: string }
 	const { data, error, isLoading } = useGetRoomById(roomID)
-	console.log(data)
 
 	if (isLoading || !data) {
 		return <LoadingPage />
@@ -28,8 +27,8 @@ const RoomID: FC = memo((): JSX.Element => {
 
 			<main className='flex flex-1 flex-col items-center justify-center px-4 py-8'>
 				<div className='mx-auto flex w-full max-w-[800px] flex-1 flex-col'>
-					<div className='mb-6 flex w-full items-center justify-start gap-2'>
-						<h2 className='scroll-m-20 truncate text-3xl font-semibold tracking-tight'>
+					<div className='mb-6 flex w-full flex-col-reverse items-start justify-center gap-2 md:flex-row md:items-center md:justify-start'>
+						<h2 className='scroll-m-20 text-xl font-semibold tracking-tight md:text-3xl'>
 							{data.title}
 						</h2>
 

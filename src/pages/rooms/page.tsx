@@ -6,6 +6,7 @@ import { CardRoom } from './components/card-room'
 import { Illustration } from '@/components/assets'
 import { useGetAllRooms } from '@/hooks/swr/use-get-all-rooms'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
+import { Skeleton } from '@/components/ui/skeleton'
 
 const Rooms: FC = memo((): JSX.Element => {
 	const { data, error, isLoading } = useGetAllRooms()
@@ -31,15 +32,10 @@ const Rooms: FC = memo((): JSX.Element => {
 
 				<main className='mx-auto flex w-full max-w-md flex-1 flex-col items-center justify-center rounded-md p-4'>
 					{isLoading ? (
-						<div className='flex flex-col items-center justify-center gap-2'>
-							<Icon.loading
-								size={40}
-								weight='regular'
-								className='animate-spin'
-							/>
-							<span className='text-muted-foreground animate-pulse'>
-								Carregando...
-							</span>
+						<div className='flex w-full flex-col items-center justify-center gap-2'>
+							{Array.from({ length: 3 }).map((_, index) => (
+								<Skeleton key={index} className='h-40 w-full' />
+							))}
 						</div>
 					) : error ? (
 						<div className='w-full'>

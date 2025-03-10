@@ -1,5 +1,6 @@
 import { FC, JSX, memo, useState } from 'react'
 
+import { cn } from '@/lib/utils'
 import { useIsMobile } from '@/hooks/use-mobile'
 import { ButtonIcon } from '@/components/ui/button-icon'
 
@@ -24,17 +25,20 @@ const Clipboard: FC<ClipboardProps> = memo(
 		}
 
 		return (
-			<div className='flex items-center gap-2 rounded-md md:border md:p-1'>
-				<span className='hidden w-full max-w-60 min-w-20 truncate pl-2 text-sm font-semibold md:block'>
-					{value}
+			<div className='flex items-center gap-1 rounded-md border p-1 md:gap-2'>
+				<span className='text-muted-foreground pl-2 text-sm font-semibold md:w-full'>
+					{isMobile ? 'Código' : value}
 				</span>
 
 				<ButtonIcon
+					size='sm'
+					variant='secondary'
 					onClick={copyToClipboard}
-					size={isMobile ? 'default' : 'sm'}
 					icon={isCopied ? 'check' : 'clipboard'}
-					variant={isMobile ? 'outline' : 'secondary'}
-					className='hover:bg-primary cursor-pointer'
+					className={cn(
+						'cursor-pointer',
+						isCopied && 'bg-primary hover:bg-primary'
+					)}
 				/>
 			</div>
 		)

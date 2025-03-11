@@ -39,7 +39,8 @@ const FormNewQuestion: FC<FormNewQuestionProps> = memo(
 				question,
 				author: {
 					uid: user.uid,
-					name: user.displayName || 'Usuário sem nome'
+					name: user.displayName || 'Usuário sem nome',
+					avatar: user.photoURL ?? undefined
 				}
 			}).finally(() => {
 				toast.success('Pergunta enviada com sucesso!', {

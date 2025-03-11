@@ -4,12 +4,12 @@ import { Icon } from '@/components/ui/icon'
 import { Header } from '@/components/app/header'
 import { CardRoom } from './components/card-room'
 import { Illustration } from '@/components/assets'
+import { Skeleton } from '@/components/ui/skeleton'
 import { useGetAllRooms } from '@/hooks/swr/use-get-all-rooms'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
-import { Skeleton } from '@/components/ui/skeleton'
 
 const Rooms: FC = memo((): JSX.Element => {
-	const { data, error, isLoading } = useGetAllRooms()
+	const { data, isLoading } = useGetAllRooms()
 
 	return (
 		<div className='flex min-h-svh'>
@@ -37,28 +37,16 @@ const Rooms: FC = memo((): JSX.Element => {
 								<Skeleton key={index} className='h-40 w-full' />
 							))}
 						</div>
-					) : error ? (
-						<div className='w-full'>
-							<Alert variant='destructive'>
-								<Icon.warning size={20} weight='bold' />
-								<AlertTitle>Erro!</AlertTitle>
-								<AlertDescription>
-									Ocorreu um erro ao carregar as salas. Por favor, tente
-									novamente mais tarde.
-								</AlertDescription>
-							</Alert>
-						</div>
 					) : (
 						<div className='flex w-full flex-col gap-4'>
 							{data ? (
 								data.map(room => <CardRoom key={room.uid} room={room} />)
 							) : (
-								<Alert variant='destructive'>
+								<Alert>
 									<Icon.warning size={20} weight='bold' />
-									<AlertTitle>Erro!</AlertTitle>
+									<AlertTitle>Nenhuma sala foi encontrada.</AlertTitle>
 									<AlertDescription>
-										Nenhuma sala foi encontrada. Por favor, tente novamente mais
-										tarde.
+										Crie uma sala para começar a compartilhar conhecimento.
 									</AlertDescription>
 								</Alert>
 							)}

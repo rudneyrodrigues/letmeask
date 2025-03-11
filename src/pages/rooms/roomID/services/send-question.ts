@@ -1,7 +1,6 @@
 import { ref, set } from 'firebase/database'
 
 import { realtimeDB } from '@/services/firebase'
-import { randomUUID } from 'crypto'
 
 type SendQuestionProps = {
 	roomID: string
@@ -9,6 +8,7 @@ type SendQuestionProps = {
 	author: {
 		uid: string
 		name: string
+		avatar?: string
 	}
 }
 
@@ -17,16 +17,18 @@ const sendQuestion = async ({
 	author,
 	question
 }: SendQuestionProps) => {
-	const questionId = randomUUID() as string
+	const questionId = crypto.randomUUID() as string
 
 	const data = {
 		question,
 		author: {
 			uid: author.uid,
-			name: author.name
+			name: author.name,
+			avatar: author.avatar
 		},
 		isHighlighted: false,
-		isAnswered: false
+		isAnswered: false,
+		createdAt: new Date().toISOString()
 	}
 
 	try {

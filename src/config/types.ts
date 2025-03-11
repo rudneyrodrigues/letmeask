@@ -5,3 +5,16 @@ export type RoomProps = {
 	createdAt: Date
 	createdBy: string
 }
+
+export type QuestionProps = {
+	id: string
+	createdAt: number
+	question: string
+	isAnswered: boolean
+	isHighlighted: boolean
+	author: {
+		uid: string
+		name: string
+		avatar?: string
+	}
+}

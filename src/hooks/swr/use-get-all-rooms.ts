@@ -48,8 +48,8 @@ export const useGetAllRooms = () => {
 
 	return {
 		data,
-		error,
 		mutate,
+		error: !data && error,
 		isLoading: !data && !error && isLoading
 	}
 }

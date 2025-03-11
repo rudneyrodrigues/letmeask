@@ -62,6 +62,7 @@ const FormNewQuestion: FC<FormNewQuestionProps> = memo(
 					room.open && (
 						<form onSubmit={handleSendQuestion} className='w-full space-y-2'>
 							<Textarea
+								name='question'
 								value={question}
 								aria-label='Pergunta'
 								placeholder='O que você quer perguntar?'
@@ -83,7 +84,7 @@ const FormNewQuestion: FC<FormNewQuestionProps> = memo(
 									aria-label='Enviar pergunta'
 									loadingText='Enviar pergunta'
 									disabled={
-										question.length <= 10 ||
+										question.length <= 0 ||
 										question.length > 500 ||
 										!room.open ||
 										loading

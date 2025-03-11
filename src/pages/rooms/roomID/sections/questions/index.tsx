@@ -37,16 +37,12 @@ const Questions: FC<QuestionsProps> = memo(
 				)}
 			>
 				{data.length > 0 ? (
-					<div
-						className={cn(
-							'flex w-full flex-col gap-4',
-							!userIsCreator && 'mt-10'
-						)}
-					>
+					<div className={cn('flex w-full flex-col gap-4', user && 'mt-10')}>
 						{data.map(question => {
 							return (
 								<Question
 									key={question.id}
+									roomId={room.uid}
 									question={question}
 									userIsCreator={!!userIsCreator}
 								/>

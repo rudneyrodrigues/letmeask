@@ -12,6 +12,8 @@ export type QuestionProps = {
 	question: string
 	isAnswered: boolean
 	isHighlighted: boolean
+	likeCount: number
+	likeId: string | undefined
 	author: {
 		uid: string
 		name: string

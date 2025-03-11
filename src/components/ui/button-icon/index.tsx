@@ -1,4 +1,5 @@
 import { forwardRef, memo } from 'react'
+import { IconWeight } from '@phosphor-icons/react'
 import type { VariantProps } from 'class-variance-authority'
 
 import { cn } from '@/lib/utils'
@@ -10,11 +11,23 @@ export interface ButtonIconProps
 		VariantProps<typeof variants> {
 	icon: IconName
 	loading?: boolean
+	iconWeight?: IconWeight
 }
 
 const ButtonIcon = memo(
 	forwardRef<HTMLButtonElement, ButtonIconProps>(
-		({ icon, size, variant, className, loading = false, ...props }, ref) => {
+		(
+			{
+				icon,
+				size,
+				variant,
+				className,
+				loading = false,
+				iconWeight = 'regular',
+				...props
+			},
+			ref
+		) => {
 			const IconComponent = Icon[icon]
 
 			return (
@@ -26,9 +39,13 @@ const ButtonIcon = memo(
 					{...props}
 				>
 					{loading ? (
-						<Icon.loading size={20} weight='bold' className='animate-spin' />
+						<Icon.loading
+							size={20}
+							weight={iconWeight}
+							className='animate-spin'
+						/>
 					) : (
-						<IconComponent size={size === 'lg' ? 24 : 20} />
+						<IconComponent size={size === 'lg' ? 24 : 20} weight={iconWeight} />
 					)}
 				</button>
 			)

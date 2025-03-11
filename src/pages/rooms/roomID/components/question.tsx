@@ -4,16 +4,22 @@ import { cn } from '@/lib/utils'
 import { QuestionProps } from '@/config/types'
 import { useIsMobile } from '@/hooks/use-mobile'
 import { Separator } from '@/components/ui/separator'
-import { ButtonIcon } from '@/components/ui/button-icon'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import {
+	LikeButton,
+	TrashButton,
+	CheckButton,
+	HighlightedButton
+} from './buttons'
 
 type IProps = {
+	roomId: string
 	userIsCreator: boolean
 	question: QuestionProps
 }
 
 const Question: FC<IProps> = memo(
-	({ question, userIsCreator }: IProps): JSX.Element => {
+	({ roomId, question, userIsCreator }: IProps): JSX.Element => {
 		const isMobile = useIsMobile()
 
 		return (
@@ -56,24 +62,9 @@ const Question: FC<IProps> = memo(
 					>
 						{userIsCreator && (
 							<div className='flex items-center gap-1'>
-								<ButtonIcon
-									size='sm'
-									variant='ghost'
-									icon='checkCircle'
-									className='cursor-pointer'
-								/>
-								<ButtonIcon
-									size='sm'
-									variant='ghost'
-									icon='chatCircle'
-									className='cursor-pointer'
-								/>
-								<ButtonIcon
-									size='sm'
-									variant='ghost'
-									icon='trashSimple'
-									className='cursor-pointer'
-								/>
+								<CheckButton />
+								<HighlightedButton />
+								<TrashButton />
 							</div>
 						)}
 
@@ -81,11 +72,11 @@ const Question: FC<IProps> = memo(
 							<Separator orientation='vertical' className='mx-2 h-4' />
 						)}
 
-						<ButtonIcon
-							size='sm'
-							icon='like'
-							variant='ghost'
-							className='cursor-pointer'
+						<LikeButton
+							roomId={roomId}
+							questionId={question.id}
+							likeCount={question.likeCount}
+							likeId={question.likeId}
 						/>
 					</div>
 				</footer>

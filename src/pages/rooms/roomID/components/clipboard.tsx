@@ -25,13 +25,13 @@ const Clipboard: FC<ClipboardProps> = memo(
 		}
 
 		return (
-			<div className='flex items-center gap-1 rounded-md border p-1 md:gap-2'>
-				<span className='text-muted-foreground pl-2 text-sm font-semibold md:w-full'>
-					{isMobile ? 'Código' : value}
+			<div className='flex items-center gap-1 rounded-md md:gap-2 md:border md:p-1'>
+				<span className='text-muted-foreground hidden w-full truncate pl-2 text-sm font-semibold md:block'>
+					{value}
 				</span>
 
 				<ButtonIcon
-					size='sm'
+					size={isMobile ? 'default' : 'sm'}
 					variant='secondary'
 					onClick={copyToClipboard}
 					icon={isCopied ? 'check' : 'clipboard'}

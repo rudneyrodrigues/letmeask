@@ -1,10 +1,12 @@
 import { Link } from 'react-router'
 import { FC, FormEvent, JSX, memo, useState } from 'react'
 
+import { toast } from 'sonner'
 import { useAuth } from '@/hooks/use-auth'
 import { RoomProps } from '@/config/types'
 import { Button } from '@/components/ui/button'
 import { Textarea } from '@/components/ui/textarea'
+import { sendQuestion } from '../services/send-question'
 
 type FormNewQuestionProps = {
 	room: RoomProps
@@ -14,11 +16,42 @@ const FormNewQuestion: FC<FormNewQuestionProps> = memo(
 	({ room }: FormNewQuestionProps): JSX.Element => {
 		const { user, loginWithGoogle } = useAuth()
 		const [question, setQuestion] = useState('')
+		const [loading, setLoading] = useState(false)
 
-		const handleSendQuestion = (e: FormEvent<HTMLFormElement>) => {
+		const handleSendQuestion = async (e: FormEvent<HTMLFormElement>) => {
 			e.preventDefault()
+			setLoading(true)
 
-			console.log(question)
+			if (!user) {
+				return toast.error(
+					'Você precisa estar logado para enviar uma pergunta.',
+					{
+						action: {
+							label: 'Fazer login',
+							onClick: () => loginWithGoogle()
+						}
+					}
+				)
+			}
+
+			await sendQuestion({
+				roomID: room.uid,
+				question,
+				author: {
+					uid: user.uid,
+					name: user.displayName || 'Usuário sem nome'
+				}
+			}).finally(() => {
+				toast.success('Pergunta enviada com sucesso!', {
+					action: {
+						label: 'Ok',
+						onClick: () => {}
+					}
+				})
+			})
+
+			setLoading(false)
+			setQuestion('')
 		}
 
 		return (
@@ -32,7 +65,7 @@ const FormNewQuestion: FC<FormNewQuestionProps> = memo(
 								aria-label='Pergunta'
 								placeholder='O que você quer perguntar?'
 								info={`${question.length}/500 caracteres`}
-								disabled={user.uid !== room.createdBy || !room.open}
+								disabled={!user || !room.open || user.uid === room.createdBy}
 								onChange={e => {
 									// Limita a quantidade de caracteres
 									if (e.target.value.length <= 500) {
@@ -45,9 +78,14 @@ const FormNewQuestion: FC<FormNewQuestionProps> = memo(
 							<div className='flex items-center justify-end'>
 								<Button
 									type='submit'
+									loading={loading}
 									aria-label='Enviar pergunta'
+									loadingText='Enviar pergunta'
 									disabled={
-										question.length <= 10 || question.length > 500 || !room.open
+										question.length <= 10 ||
+										question.length > 500 ||
+										!room.open ||
+										loading
 									}
 								>
 									Enviar pergunta

@@ -14,16 +14,23 @@ import {
 
 type IProps = {
 	roomId: string
+	roomOpen: boolean
 	userIsCreator: boolean
 	question: QuestionProps
 }
 
 const Question: FC<IProps> = memo(
-	({ roomId, question, userIsCreator }: IProps): JSX.Element => {
+	({ roomId, question, roomOpen, userIsCreator }: IProps): JSX.Element => {
 		const isMobile = useIsMobile()
 
 		return (
-			<div className='w-full space-y-4 rounded-md border p-4'>
+			<div
+				className={cn(
+					'w-full space-y-4 rounded-md border p-4',
+					question.isHighlighted && 'border-primary bg-muted/60',
+					question.isAnswered && 'opacity-50'
+				)}
+			>
 				<div>
 					<p className='text-foreground text-base'>{question.question}</p>
 				</div>
@@ -62,9 +69,24 @@ const Question: FC<IProps> = memo(
 					>
 						{userIsCreator && (
 							<div className='flex items-center gap-1'>
-								<CheckButton />
-								<HighlightedButton />
-								<TrashButton />
+								<CheckButton
+									roomId={roomId}
+									roomOpen={roomOpen}
+									questionId={question.id}
+									isAnswered={question.isAnswered}
+								/>
+								<HighlightedButton
+									roomId={roomId}
+									roomOpen={roomOpen}
+									questionId={question.id}
+									isAnswered={question.isAnswered}
+									isHighlighted={question.isHighlighted}
+								/>
+								<TrashButton
+									roomId={roomId}
+									roomOpen={roomOpen}
+									questionId={question.id}
+								/>
 							</div>
 						)}
 
@@ -74,9 +96,11 @@ const Question: FC<IProps> = memo(
 
 						<LikeButton
 							roomId={roomId}
+							roomOpen={roomOpen}
+							likeId={question.likeId}
 							questionId={question.id}
 							likeCount={question.likeCount}
-							likeId={question.likeId}
+							isAnswered={question.isAnswered}
 						/>
 					</div>
 				</footer>

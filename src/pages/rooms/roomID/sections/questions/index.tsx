@@ -44,6 +44,7 @@ const Questions: FC<QuestionsProps> = memo(
 									key={question.id}
 									roomId={room.uid}
 									question={question}
+									roomOpen={room.open}
 									userIsCreator={!!userIsCreator}
 								/>
 							)

@@ -1,10 +1,10 @@
 import './styles/globals.css'
 
 import { StrictMode } from 'react'
+import { BrowserRouter } from 'react-router'
 import { createRoot } from 'react-dom/client'
 
 import { AppRoutes } from './routes'
-import { BrowserRouter } from 'react-router'
 import { Toaster } from './components/ui/toaster'
 import { AuthProvider } from './providers/auth.tsx'
 import { ThemeProvider } from './providers/theme.tsx'

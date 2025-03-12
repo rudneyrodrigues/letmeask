@@ -1,38 +1,65 @@
 import useSWR from 'swr'
-import { ref, child, get } from 'firebase/database'
+import { useEffect } from 'react'
+import { ref, child, get, onValue } from 'firebase/database'
 
 import { RoomProps } from '@/config/types'
 import { realtimeDB } from '@/services/firebase'
 
-export const useGetRoomById = (roomId: string) => {
-	const fetcher = async () => {
-		const dbRef = ref(realtimeDB)
+type FirebaseRoomProps = Record<string, Omit<RoomProps, 'uid'>>
 
-		const snapshot = await get(child(dbRef, `rooms/${roomId}`))
+const fetcher = async (path: string, roomId: string) => {
+	const dbRef = ref(realtimeDB)
 
-		if (snapshot.exists()) {
-			const data = snapshot.val() as Omit<RoomProps, 'uid'>
+	const snapshot = await get(child(dbRef, path))
 
-			const formattedData = {
-				uid: roomId,
-				...data
-			} as RoomProps
+	if (snapshot.exists()) {
+		const data = snapshot.val() as Omit<RoomProps, 'uid'>
 
-			return formattedData
-		} else {
-			const error = new Error('Nenhum dado encontrado')
+		const formattedData = {
+			uid: roomId,
+			...data
+		} as RoomProps
 
-			throw error
-		}
+		return formattedData
+	} else {
+		const error = new Error('Nenhum dado encontrado')
+
+		throw error
 	}
+}
 
+export const useGetRoomById = (roomId: string) => {
+	const path = `rooms/${roomId}`
 	const { data, error, isLoading, mutate } = useSWR(
-		`rooms/${roomId}`,
-		fetcher,
+		path,
+		() => fetcher(path, roomId),
 		{
 			revalidateOnFocus: false
 		}
 	)
+
+	useEffect(() => {
+		if (!roomId) return
+
+		const roomRef = ref(realtimeDB, path)
+
+		const unsubscribe = onValue(roomRef, snapshot => {
+			if (snapshot.exists()) {
+				const data = snapshot.val() as FirebaseRoomProps
+
+				const formattedData = {
+					uid: roomId,
+					...data
+				} as RoomProps
+
+				mutate(formattedData, false)
+			} else {
+				mutate(undefined, false)
+			}
+		})
+
+		return () => unsubscribe()
+	}, [roomId, path, mutate])
 
 	return {
 		data,

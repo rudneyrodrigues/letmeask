@@ -14,12 +14,11 @@ const CardRoom: FC<CardRoomProps> = memo(
 	({ room }: CardRoomProps): JSX.Element => {
 		return (
 			<Link
+				to={`/rooms/${room.uid}`}
 				aria-disabled={!room.open}
-				to={room.open ? `/rooms/${room.uid}` : '#'}
 				aria-label={`Entrar na sala ${room.title}`}
 				className={cn(
-					'group rounded-xl focus-visible:outline-2 focus-visible:outline-offset-2',
-					!room.open && 'cursor-not-allowed'
+					'group rounded-xl focus-visible:outline-2 focus-visible:outline-offset-2'
 				)}
 			>
 				<Card className='group-hover:border-primary group-hover:bg-card/70 transition-colors'>

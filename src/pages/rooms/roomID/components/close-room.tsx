@@ -2,6 +2,7 @@ import { FC, JSX, memo, useState } from 'react'
 
 import { Button } from '@/components/ui/button'
 import { useIsMobile } from '@/hooks/use-mobile'
+import { updateRoom } from '../services/update-room'
 import { ButtonIcon } from '@/components/ui/button-icon'
 import {
 	AlertDialog,
@@ -27,9 +28,7 @@ const CloseRoom: FC<CloseRoomProps> = memo(
 		const handleDeleteRoom = async () => {
 			setIsClosing(true)
 
-			console.log(`Closing room ${roomId}`)
-
-			await new Promise(resolve => setTimeout(resolve, 2000))
+			await updateRoom({ roomId, updates: { open: false } })
 
 			setIsClosing(false)
 			setIsOpen(false)

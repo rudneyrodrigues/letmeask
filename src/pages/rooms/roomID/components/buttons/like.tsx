@@ -1,23 +1,26 @@
 import { FC, JSX } from 'react'
-import { get, ref, remove, set } from 'firebase/database'
 
 import { cn } from '@/lib/utils'
 import { useAuth } from '@/hooks/use-auth'
-import { realtimeDB } from '@/services/firebase'
+import { handleLike } from '../../services/handle-like'
 import { ButtonIcon } from '@/components/ui/button-icon'
 
 type LikeButtonProps = {
 	roomId: string
+	roomOpen: boolean
 	likeCount: number
 	questionId: string
+	isAnswered: boolean
 	likeId: string | undefined
 }
 
 const LikeButton: FC<LikeButtonProps> = ({
 	roomId,
 	likeId,
+	roomOpen,
 	likeCount,
-	questionId
+	questionId,
+	isAnswered
 }: LikeButtonProps): JSX.Element => {
 	const { user } = useAuth()
 
@@ -33,23 +36,14 @@ const LikeButton: FC<LikeButtonProps> = ({
 					{likeCount}
 				</span>
 
-				<ButtonIcon size='sm' icon='like' variant='ghost' disabled={!user} />
+				<ButtonIcon
+					size='sm'
+					icon='like'
+					variant='ghost'
+					disabled={!user || isAnswered || !roomOpen}
+				/>
 			</div>
 		)
-	}
-
-	const handleLike = async () => {
-		const likeRef = ref(
-			realtimeDB,
-			`rooms/${roomId}/questions/${questionId}/likes/${user.uid}`
-		)
-		const likeSnapshot = await get(likeRef)
-
-		if (likeSnapshot.exists()) {
-			await remove(likeRef)
-		} else {
-			await set(likeRef, true)
-		}
 	}
 
 	return (
@@ -66,10 +60,10 @@ const LikeButton: FC<LikeButtonProps> = ({
 			<ButtonIcon
 				size='sm'
 				icon='like'
-				disabled={!user}
-				onClick={handleLike}
 				variant={likeId ? 'default' : 'ghost'}
 				iconWeight={likeId ? 'fill' : 'regular'}
+				disabled={!user || isAnswered || !roomOpen}
+				onClick={() => handleLike({ roomId, userUid: user.uid, questionId })}
 				className='cursor-pointer'
 			/>
 		</div>

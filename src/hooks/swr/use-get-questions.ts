@@ -49,7 +49,21 @@ const fetcher = async (path: string, userUid: string) => {
 	// Ordenando perguntas
 	const orderedQuestions = [...unansweredQuestions, ...answeredQuestions]
 
-	return orderedQuestions
+	// Caso a pergunta esteja com destaque, ela deve ser enviada para o início da lista
+	const highlightedQuestions = orderedQuestions.filter(
+		question => question.isHighlighted
+	)
+	// Caso a pergunta não esteja com destaque, ela deve ser enviada para o final da lista
+	const notHighlightedQuestions = orderedQuestions.filter(
+		question => !question.isHighlighted
+	)
+	// Ordenando perguntas
+	const orderedHighlightedQuestions = [
+		...highlightedQuestions,
+		...notHighlightedQuestions
+	]
+
+	return orderedHighlightedQuestions
 }
 
 export const useGetQuestions = (roomID: string) => {
@@ -101,16 +115,28 @@ export const useGetQuestions = (roomID: string) => {
 				// Ordenando perguntas
 				const orderedQuestions = [...unansweredQuestions, ...answeredQuestions]
 
+				// Caso a pergunta esteja com destaque, ela deve ser enviada para o início da lista
+				const highlightedQuestions = orderedQuestions.filter(
+					question => question.isHighlighted
+				)
+				// Caso a pergunta não esteja com destaque, ela deve ser enviada para o final da lista
+				const notHighlightedQuestions = orderedQuestions.filter(
+					question => !question.isHighlighted
+				)
+				// Ordenando perguntas
+				const orderedHighlightedQuestions = [
+					...highlightedQuestions,
+					...notHighlightedQuestions
+				]
+
 				// Atualizando perguntas
-				mutate(orderedQuestions, false)
+				mutate(orderedHighlightedQuestions, false)
 			} else {
 				mutate([], false)
 			}
 		})
 
-		return () => {
-			unsubscribe()
-		}
+		return () => unsubscribe()
 	}, [roomID, path, mutate, userUid])
 
 	return {

@@ -1,5 +1,6 @@
 import {
 	X,
+	User,
 	Plus,
 	Check,
 	House,
@@ -17,12 +18,14 @@ import {
 	CheckCircle,
 	TrashSimple,
 	CircleNotch,
-	WarningCircle
+	WarningCircle,
+	EnvelopeSimple
 } from '@phosphor-icons/react'
 
 export const Icon = {
 	close: X,
 	add: Plus,
+	user: User,
 	home: House,
 	check: Check,
 	logIn: SignIn,
@@ -31,6 +34,7 @@ export const Icon = {
 	logOut: SignOut,
 	google: GoogleLogo,
 	calendar: Calendar,
+	mail: EnvelopeSimple,
 	loading: CircleNotch,
 	arrowDown: CaretDown,
 	arrowLeft: CaretLeft,

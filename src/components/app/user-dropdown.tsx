@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router'
 
 import { useAuth } from '@/hooks/use-auth'
 import { Skeleton } from '@/components/ui/skeleton'
+import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar'
 import {
 	DropdownMenu,
 	DropdownMenuItem,
@@ -28,12 +29,20 @@ const UserDropdown: FC = memo((): JSX.Element => {
 
 	return (
 		<DropdownMenu>
-			<DropdownMenuTrigger className='size-10 min-w-10 rounded-full border focus:outline-2 focus:outline-offset-2'>
-				<img
-					alt='Rudney Rodrigues do Nascimento'
-					src='https://avatars.githubusercontent.com/u/68288226?v=4'
-					className='flex-1 cursor-pointer rounded-full'
-				/>
+			<DropdownMenuTrigger className='size-10 min-w-10 rounded-full focus:outline-2 focus:outline-offset-2'>
+				<Avatar>
+					<AvatarImage
+						alt={String(user.displayName)}
+						src={String(user.photoURL)}
+					/>
+					<AvatarFallback>
+						{String(user.displayName)
+							.split(' ')
+							.map(name => name[0])
+							.slice(0, 2)
+							.join('')}
+					</AvatarFallback>
+				</Avatar>
 			</DropdownMenuTrigger>
 
 			<DropdownMenuContent align='end' className='w-52'>
@@ -41,7 +50,9 @@ const UserDropdown: FC = memo((): JSX.Element => {
 
 				<DropdownMenuSeparator />
 
-				<DropdownMenuItem>Meu perfil</DropdownMenuItem>
+				<DropdownMenuItem asChild>
+					<Link to='/profile'>Meu perfil</Link>
+				</DropdownMenuItem>
 				<DropdownMenuItem asChild>
 					<Link to='/rooms'>Minhas salas</Link>
 				</DropdownMenuItem>

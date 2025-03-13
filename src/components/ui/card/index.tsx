@@ -7,7 +7,7 @@ const Card = forwardRef<HTMLDivElement, HTMLAttributes<HTMLDivElement>>(
 		<div
 			ref={ref}
 			className={cn(
-				'bg-card text-card-foreground rounded-xl border shadow',
+				'bg-background text-foreground rounded-md border shadow',
 				className
 			)}
 			{...props}
@@ -31,10 +31,7 @@ const CardTitle = forwardRef<HTMLDivElement, HTMLAttributes<HTMLDivElement>>(
 	({ className, ...props }, ref) => (
 		<div
 			ref={ref}
-			className={cn(
-				'text-lg leading-none font-semibold tracking-tight',
-				className
-			)}
+			className={cn('text-xl font-bold tracking-tight', className)}
 			{...props}
 		/>
 	)
@@ -64,7 +61,7 @@ const CardFooter = forwardRef<HTMLDivElement, HTMLAttributes<HTMLDivElement>>(
 	({ className, ...props }, ref) => (
 		<div
 			ref={ref}
-			className={cn('flex items-center p-6 pt-0', className)}
+			className={cn('flex items-center border-t px-8 py-4', className)}
 			{...props}
 		/>
 	)

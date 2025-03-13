@@ -2,8 +2,9 @@ import { Route, Routes } from 'react-router'
 
 import { Home } from '@/pages/home'
 import { About } from '@/pages/about'
-import { Rooms, RoomID, RoomNew } from '@/pages/rooms'
+import { Profile } from '@/pages/profile'
 import { PrivateRoutes } from './private-routes'
+import { Rooms, RoomID, RoomNew } from '@/pages/rooms'
 
 export const AppRoutes = () => {
 	return (
@@ -19,6 +20,12 @@ export const AppRoutes = () => {
 				</Route>
 
 				<Route path=':roomID' element={<RoomID />} />
+			</Route>
+
+			<Route path='profile'>
+				<Route element={<PrivateRoutes />}>
+					<Route index element={<Profile />} />
+				</Route>
 			</Route>
 		</Routes>
 	)

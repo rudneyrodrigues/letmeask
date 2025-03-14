@@ -1,7 +1,12 @@
 {
 	"name": "letmeask",
 	"private": true,
-	"version": "0.0.0",
+	"version": "1.0.0",
+	"author": {
+		"name": "Rudney Rodrigues do Nascimento",
+		"email": "rudney.un2016@gmail.com",
+		"url": "https://rudneyrodrigues.dev.br"
+	},
 	"type": "module",
 	"scripts": {
 		"dev": "vite",

@@ -1,20 +1,20 @@
-<div style="display: flex; justify-content: center; align-items: center; width: 100%;">
+<p align="center">
   <img alt="Letmeask" src=".github/images/logo.svg" width="160px">
-</div>
+</p>
 
-<div style="display: flex; gap: 4px; justify-content: center; align-items: center; width: 100%; margin: 16px 0;">
+<p align="center">
   <img src="https://img.shields.io/static/v1?label=NLW&message=06&color=8257E5&labelColor=000000" alt="NLW Together 06" />
 
   <img src="https://img.shields.io/github/stars/rudneyrodrigues/letmeask?label=stars&message=MIT&color=8257E5&labelColor=000000" alt="Stars">
 
   <img  src="https://img.shields.io/static/v1?label=license&message=MIT&color=8257E5&labelColor=000000" alt="License">
-</div>
+</p>
 
 <br>
 
-<div align="center" style="display: flex; justify-content: center; align-items: center; width: 100%;">
+<h1 align="center">
     <img alt="Letmeask" src=".github/images/cover.png" />
-</div>
+</h1>
 
 <br>
 

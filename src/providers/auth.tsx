@@ -1,6 +1,13 @@
 import { toast } from 'sonner'
 import { destroyCookie, setCookie } from 'nookies'
-import { createContext, ReactNode, useEffect, useState } from 'react'
+import {
+	createContext,
+	Dispatch,
+	ReactNode,
+	SetStateAction,
+	useEffect,
+	useState
+} from 'react'
 import {
 	User,
 	signOut,
@@ -20,6 +27,7 @@ export interface AuthContextData {
 	user: User | null
 	logout: () => Promise<void>
 	loginWithGoogle: () => Promise<void>
+	setUser: Dispatch<SetStateAction<User | null>>
 }
 
 const AuthContext = createContext<AuthContextData>({} as AuthContextData)
@@ -121,7 +129,9 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
 	}, [])
 
 	return (
-		<AuthContext.Provider value={{ user, loading, logout, loginWithGoogle }}>
+		<AuthContext.Provider
+			value={{ user, loading, logout, setUser, loginWithGoogle }}
+		>
 			{children}
 		</AuthContext.Provider>
 	)

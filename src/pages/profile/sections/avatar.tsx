@@ -1,6 +1,6 @@
 import { FC, JSX, memo } from 'react'
 
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import { DialogUpdateAvatar } from '@/components/app/dialog-update-avatar'
 import {
 	Card,
 	CardTitle,
@@ -29,20 +29,7 @@ const AvatarSection: FC<AvatarSectionProps> = memo(
 						</CardDescription>
 					</div>
 
-					<Avatar className='size-16'>
-						<AvatarImage
-							src={String(user.photoURL)}
-							alt={String(user.displayName)}
-							className='size-16'
-						/>
-						<AvatarFallback>
-							{String(user.displayName)
-								.split(' ')
-								.map(name => name[0])
-								.slice(0, 2)
-								.join('')}
-						</AvatarFallback>
-					</Avatar>
+					<DialogUpdateAvatar user={user} />
 				</CardHeader>
 
 				<CardFooter>

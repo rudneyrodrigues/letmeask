@@ -1,7 +1,9 @@
-import { FC, JSX, memo } from 'react'
+import { toast } from 'sonner'
+import { FC, JSX, memo, useState } from 'react'
 
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
+import { updateDisplayName } from '../services/update-profile'
 import {
 	Card,
 	CardTitle,
@@ -17,6 +19,46 @@ type DisplayNameSectionProps = {
 
 const DisplayNameSection: FC<DisplayNameSectionProps> = memo(
 	({ displayName }: DisplayNameSectionProps): JSX.Element => {
+		const [isLoading, setIsLoading] = useState<boolean>(false)
+		const [newName, setNewName] = useState<string | null>(displayName)
+
+		const handleUpdateDisplayName = async () => {
+			setIsLoading(true)
+
+			if (!newName) {
+				setIsLoading(false)
+
+				return toast.error('Por favor, insira um nome de exibição.', {
+					action: {
+						label: 'Ok',
+						onClick: () => {}
+					}
+				})
+			}
+
+			await updateDisplayName(newName)
+				.then(() => {
+					toast.success('Nome de exibição atualizado com sucesso.', {
+						action: {
+							label: 'Ok',
+							onClick: () => {}
+						}
+					})
+				})
+				.catch((error: Error) => {
+					toast.error('Erro ao atualizar o nome de exibição.', {
+						description: error.message,
+						action: {
+							label: 'Ok',
+							onClick: () => {}
+						}
+					})
+				})
+				.finally(() => {
+					setIsLoading(false)
+				})
+		}
+
 		return (
 			<Card>
 				<CardHeader>
@@ -30,9 +72,10 @@ const DisplayNameSection: FC<DisplayNameSectionProps> = memo(
 				<CardContent>
 					<Input
 						icon='user'
-						name='display-name'
-						defaultValue={displayName || ''}
-						placeholder={displayName || 'Nome de exibição'}
+						name='new-name'
+						defaultValue={newName || ''}
+						placeholder={newName || 'Nome de exibição'}
+						onChange={event => setNewName(event.target.value)}
 						className='w-full max-w-sm'
 					/>
 				</CardContent>
@@ -42,7 +85,14 @@ const DisplayNameSection: FC<DisplayNameSectionProps> = memo(
 						Por favor, uso no máximo 32 caracteres.
 					</span>
 
-					<Button variant='outline' className='w-full sm:w-auto'>
+					<Button
+						variant='outline'
+						loading={isLoading}
+						loadingText='Salvar'
+						onClick={handleUpdateDisplayName}
+						disabled={!newName || newName === displayName}
+						className='w-full sm:w-auto'
+					>
 						Salvar
 					</Button>
 				</CardFooter>

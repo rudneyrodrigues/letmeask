@@ -68,15 +68,15 @@ const DialogUpdateAvatar: FC<DialogUpdateAvatarProps> = memo(
 										: String(user.photoURL)
 								}
 								alt={String(user.displayName)}
-								className='cover h-full w-full rounded-md'
+								className='cover mx-auto size-80 h-full max-h-80 w-full max-w-80 rounded-md'
 							/>
 							<Input
 								type='file'
 								name='avatar'
 								accept='image/*'
+								placeholder='Escolha um arquivo'
 								onChange={e => setAvatar(e.target.files?.[0] ?? null)}
 								className='hidden w-full'
-								placeholder='Escolha um arquivo'
 							/>
 						</label>
 					</div>

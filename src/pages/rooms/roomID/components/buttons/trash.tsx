@@ -61,6 +61,7 @@ const TrashButton: FC<TrashButtonProps> = ({
 					<AlertDialogCancel>Cancelar</AlertDialogCancel>
 					<Button
 						loading={loading}
+						variant='destructive'
 						onClick={handleDelete}
 						loadingText='Continuar'
 					>

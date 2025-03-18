@@ -26,7 +26,7 @@ const EmailSection: FC<EmailSectionProps> = memo(
 				</CardHeader>
 
 				<CardContent>
-					<strong className='text-sm font-medium'>
+					<strong className='sr-only text-sm font-medium'>
 						Seu e-mail foi verificado com sucesso!
 					</strong>
 					<Input

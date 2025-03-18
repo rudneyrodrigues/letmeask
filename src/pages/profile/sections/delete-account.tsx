@@ -1,6 +1,6 @@
 import { FC, JSX, memo } from 'react'
 
-import { Button } from '@/components/ui/button'
+import { DialogDeleteAccount } from '../components/dialog-delete-account'
 import {
 	Card,
 	CardTitle,
@@ -15,8 +15,6 @@ type DeleteAccountSectionProps = {
 
 const DeleteAccountSection: FC<DeleteAccountSectionProps> = memo(
 	({ uid }: DeleteAccountSectionProps): JSX.Element => {
-		console.log('Delete user account with uid:', uid)
-
 		return (
 			<Card className='border-destructive'>
 				<CardHeader>
@@ -28,9 +26,7 @@ const DeleteAccountSection: FC<DeleteAccountSectionProps> = memo(
 				</CardHeader>
 
 				<CardFooter className='border-t-destructive bg-destructive/10 justify-end'>
-					<Button variant='destructive' className='w-full sm:w-auto'>
-						Deletar conta
-					</Button>
+					<DialogDeleteAccount uid={uid} />
 				</CardFooter>
 			</Card>
 		)

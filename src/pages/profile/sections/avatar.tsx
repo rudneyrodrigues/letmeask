@@ -1,6 +1,6 @@
 import { FC, JSX, memo } from 'react'
 
-import { DialogUpdateAvatar } from '@/components/app/dialog-update-avatar'
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import {
 	Card,
 	CardTitle,
@@ -29,12 +29,28 @@ const AvatarSection: FC<AvatarSectionProps> = memo(
 						</CardDescription>
 					</div>
 
-					<DialogUpdateAvatar user={user} />
+					<Avatar className='size-16'>
+						<AvatarImage
+							src={String(user.photoURL)}
+							alt={String(user.displayName)}
+							className='size-16'
+						/>
+						<AvatarFallback>
+							{String(user.displayName)
+								.split(' ')
+								.map(name => name[0])
+								.slice(0, 2)
+								.join('')}
+						</AvatarFallback>
+					</Avatar>
 				</CardHeader>
 
 				<CardFooter>
-					<span className='text-muted-foreground text-sm font-medium'>
+					<span className='text-muted-foreground sr-only text-sm font-medium'>
 						Um avatar é opcional, mas altamente recomendado
+					</span>
+					<span className='text-muted-foreground text-sm font-medium'>
+						Ainda não é possível alterar o avatar
 					</span>
 				</CardFooter>
 			</Card>

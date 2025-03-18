@@ -56,7 +56,7 @@ const UserDropdown: FC = memo((): JSX.Element => {
 				<DropdownMenuItem asChild>
 					<Link to='/rooms'>Minhas salas</Link>
 				</DropdownMenuItem>
-				<DropdownMenuItem>Configurações</DropdownMenuItem>
+				{/* <DropdownMenuItem>Configurações</DropdownMenuItem> */}
 
 				<DropdownMenuSeparator />
 
